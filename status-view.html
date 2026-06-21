@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AChat | الحالة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#070B14;
+    --surface:#0E1526;
+    --surface-2:#131B2F;
+    --border-soft: rgba(255,255,255,.08);
+    --cyan:#2FE0FF;
+    --cyan-deep:#1A4FD1;
+    --text:#EAF2FA;
+    --muted:#7C8AA3;
+    --danger:#FF5D75;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html, body{ height:100%; }
+  body{
+    font-family:'Cairo', sans-serif;
+    color:var(--text);
+    height:100vh;
+    height:100dvh;
+    background:#000;
+    overflow:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .story-stage{
+    position:relative;
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .story-media-wrap{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#000;
+  }
+  .story-media-wrap img, .story-media-wrap video{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+  }
+
+  .story-overlay-top{
+    position:relative;
+    z-index:5;
+    padding:calc(10px + env(safe-area-inset-top)) 14px 0;
+    background:linear-gradient(to bottom, rgba(0,0,0,.55), transparent);
+  }
+
+  .progress-row{
+    display:flex;
+    gap:5px;
+    margin-bottom:12px;
+  }
+  .progress-track{
+    flex:1;
+    height:3px;
+    border-radius:3px;
+    background:rgba(255,255,255,.28);
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:#fff;
+    border-radius:3px;
+  }
+  .progress-track.done .progress-fill{ width:100% !important; }
+
+  .story-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .story-avatar{
+    width:36px; height:36px;
+    border-radius:50%;
+    overflow:hidden;
+    background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));
+    color:#06121C;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:15px;
+    flex-shrink:0;
+  }
+  .story-avatar img{ width:100%; height:100%; object-fit:cover; }
+  .story-name{ font-size:14.5px; font-weight:800; }
+  .story-time{ font-size:11.5px; color:rgba(255,255,255,.75); }
+  .story-header-actions{
+    margin-right:auto;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .icon-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,255,255,.12);
+    color:#fff;
+    font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .icon-btn:active{ background:rgba(255,255,255,.22); }
+
+  .story-tap-zones{
+    position:absolute;
+    inset:0;
+    z-index:3;
+    display:flex;
+  }
+  .tap-zone{ flex:1; }
+
+  .story-footer{
+    position:relative;
+    z-index:5;
+    margin-top:auto;
+    padding:0 16px calc(16px + env(safe-area-inset-bottom));
+    background:linear-gradient(to top, rgba(0,0,0,.55), transparent);
+    padding-top:30px;
+  }
+  .story-caption{
+    font-size:14px;
+    line-height:1.6;
+    color:#fff;
+    text-shadow:0 1px 4px rgba(0,0,0,.5);
+  }
+  .seen-by-row{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:rgba(255,255,255,.8);
+    font-size:12.5px;
+    margin-top:6px;
+  }
+
+  .hidden{ display:none !important; }
+
+  /* ===== قايمة الثلاث نقط (لصاحبة الحالة بس) ===== */
+  .menu-backdrop{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.4);
+    z-index:40;
+    display:none;
+  }
+  .menu-backdrop.show{ display:block; }
+  .owner-menu{
+    position:fixed;
+    top:calc(54px + env(safe-area-inset-top));
+    left:14px;
+    background:var(--surface-2);
+    border:1px solid var(--border-soft);
+    border-radius:14px;
+    overflow:hidden;
+    min-width:190px;
+    z-index:50;
+    box-shadow:0 16px 40px -10px rgba(0,0,0,.6);
+    display:none;
+  }
+  .owner-menu.show{ display:block; }
+  .owner-menu button{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:13px 16px;
+    background:none;
+    border:none;
+    color:var(--text);
+    font-family:inherit;
+    font-size:14px;
+    font-weight:600;
+    text-align:right;
+    cursor:pointer;
+  }
+  .owner-menu button:active{ background:rgba(255,255,255,.06); }
+  .owner-menu button.danger{ color:var(--danger); }
+  .owner-menu button + button{ border-top:1px solid var(--border-soft); }
+
+  /* ===== شاشة اختيار الأكونتات اللي هتتخفي عنهم الحالة ===== */
+  .hide-sheet-backdrop{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.6);
+    z-index:60;
+    display:none;
+  }
+  .hide-sheet-backdrop.show{ display:block; }
+  .hide-sheet{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    max-height:78vh;
+    background:var(--surface);
+    border-top-right-radius:20px;
+    border-top-left-radius:20px;
+    border:1px solid var(--border-soft);
+    z-index:61;
+    display:none;
+    flex-direction:column;
+    transform:translateY(100%);
+    transition:transform .25s ease;
+  }
+  .hide-sheet.show{ display:flex; transform:translateY(0); }
+  .hide-sheet-header{
+    padding:16px 18px 10px;
+    flex-shrink:0;
+  }
+  .hide-sheet-header h2{ font-size:16px; font-weight:800; margin-bottom:3px; }
+  .hide-sheet-header p{ font-size:12.5px; color:var(--muted); }
+  .hide-sheet-list{
+    flex:1;
+    overflow-y:auto;
+    padding:6px 10px 10px;
+  }
+  .hide-user-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 8px;
+    border-radius:12px;
+  }
+  .hide-user-row:active{ background:var(--surface-2); }
+  .hide-avatar{
+    width:40px; height:40px;
+    border-radius:50%;
+    overflow:hidden;
+    background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));
+    color:#06121C;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:16px;
+    flex-shrink:0;
+  }
+  .hide-avatar img{ width:100%; height:100%; object-fit:cover; }
+  .hide-user-name{ font-size:14px; font-weight:700; flex:1; }
+  .hide-checkbox{
+    width:22px; height:22px;
+    border-radius:50%;
+    border:2px solid var(--border-soft);
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px;
+    color:#06121C;
+  }
+  .hide-user-row.checked .hide-checkbox{
+    background:var(--cyan);
+    border-color:var(--cyan);
+  }
+  .hide-sheet-footer{
+    flex-shrink:0;
+    padding:12px 18px calc(16px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--border-soft);
+  }
+  .hide-save-btn{
+    width:100%;
+    padding:13px;
+    border-radius:14px;
+    border:none;
+    background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));
+    color:#06121C;
+    font-family:inherit;
+    font-weight:800;
+    font-size:14.5px;
+    cursor:pointer;
+  }
+  .empty-hide-list{
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    padding:30px 10px;
+  }
+
+  .toast{
+    position:fixed;
+    bottom:calc(24px + env(safe-area-inset-bottom));
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--surface-2);
+    border:1px solid var(--border-soft);
+    color:var(--text);
+    padding:10px 18px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:600;
+    z-index:80;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s;
+  }
+  .toast.show{ opacity:1; }
+
+  .empty-status-msg{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:10px;
+    color:var(--muted);
+    text-align:center;
+    padding:24px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="story-stage" id="storyStage">
+    <div class="story-media-wrap" id="storyMediaWrap"></div>
+
+    <div class="story-overlay-top">
+      <div class="progress-row" id="progressRow"></div>
+      <div class="story-header">
+        <div class="story-avatar" id="storyAvatar">؟</div>
+        <div>
+          <div class="story-name" id="storyName">...</div>
+          <div class="story-time" id="storyTime"></div>
+        </div>
+        <div class="story-header-actions">
+          <button type="button" class="icon-btn hidden" id="ownerMenuBtn" title="خيارات">⋮</button>
+          <button type="button" class="icon-btn" id="closeBtn" title="إغلاق">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-tap-zones">
+      <div class="tap-zone" id="zonePrev"></div>
+      <div class="tap-zone" id="zoneNext"></div>
+    </div>
+
+    <div class="story-footer">
+      <div class="story-caption hidden" id="storyCaption"></div>
+      <div class="seen-by-row hidden" id="seenByRow">👁 <span id="seenByCount">0</span> شاهدوا الحالة</div>
+    </div>
+  </div>
+
+  <div class="empty-status-msg hidden" id="emptyStatusMsg">
+    <div style="font-size:34px;">🙈</div>
+    <div>لا توجد حالات لعرضها</div>
+  </div>
+
+  <!-- قايمة الثلاث نقط: حذف / مشاركة / إخفاء -->
+  <div class="menu-backdrop" id="ownerMenuBackdrop"></div>
+  <div class="owner-menu" id="ownerMenu">
+    <button type="button" id="deleteStatusBtn" class="danger">🗑️ حذف الحالة</button>
+    <button type="button" id="shareStatusBtn">📤 مشاركة الحالة</button>
+    <button type="button" id="hideStatusBtn">🙈 إخفاء الحالة</button>
+  </div>
+
+  <!-- شاشة اختيار الأكونتات اللي هتتخفي عنهم الحالة -->
+  <div class="hide-sheet-backdrop" id="hideSheetBackdrop"></div>
+  <div class="hide-sheet" id="hideSheet">
+    <div class="hide-sheet-header">
+      <h2>إخفاء الحالة عن</h2>
+      <p>اختاري الأشخاص اللي مش عاوزاهم يشوفوا حالتك</p>
+    </div>
+    <div class="hide-sheet-list" id="hideSheetList"></div>
+    <div class="hide-sheet-footer">
+      <button type="button" class="hide-save-btn" id="hideSaveBtn">حفظ</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script type="module">
+  import { auth, db } from './firebase-config.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+  import {
+    collection, query, where, getDocs, doc, getDoc, updateDoc,
+    deleteDoc, arrayUnion, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+  const params = new URLSearchParams(window.location.search);
+  const targetUid = params.get('uid');
+
+  if(!targetUid){
+    window.location.href = 'chat.html';
+  }
+
+  const storyMediaWrap = document.getElementById('storyMediaWrap');
+  const progressRow = document.getElementById('progressRow');
+  const storyAvatar = document.getElementById('storyAvatar');
+  const storyName = document.getElementById('storyName');
+  const storyTime = document.getElementById('storyTime');
+  const storyCaption = document.getElementById('storyCaption');
+  const seenByRow = document.getElementById('seenByRow');
+  const seenByCount = document.getElementById('seenByCount');
+  const ownerMenuBtn = document.getElementById('ownerMenuBtn');
+  const closeBtn = document.getElementById('closeBtn');
+  const zonePrev = document.getElementById('zonePrev');
+  const zoneNext = document.getElementById('zoneNext');
+  const emptyStatusMsg = document.getElementById('emptyStatusMsg');
+  const storyStage = document.getElementById('storyStage');
+  const toastEl = document.getElementById('toast');
+
+  const ownerMenuBackdrop = document.getElementById('ownerMenuBackdrop');
+  const ownerMenu = document.getElementById('ownerMenu');
+  const deleteStatusBtn = document.getElementById('deleteStatusBtn');
+  const shareStatusBtn = document.getElementById('shareStatusBtn');
+  const hideStatusBtn = document.getElementById('hideStatusBtn');
+
+  const hideSheetBackdrop = document.getElementById('hideSheetBackdrop');
+  const hideSheet = document.getElementById('hideSheet');
+  const hideSheetList = document.getElementById('hideSheetList');
+  const hideSaveBtn = document.getElementById('hideSaveBtn');
+
+  let currentUser = null;
+  let isOwner = false;
+  let statuses = [];      // كل حالات الشخص (السارية بس)
+  let currentIndex = 0;
+  let timerHandle = null;
+  let progressStart = 0;
+  let elapsedBeforePause = 0;
+  let paused = false;
+  const DURATION_IMAGE = 5000; // مدة عرض الصورة بالميلي ثانية
+  let allUsersCache = [];
+  let selectedHideUids = new Set();
+
+  function showToast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    setTimeout(() => toastEl.classList.remove('show'), 1800);
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if(!user){ window.location.href = 'index.html'; return; }
+    currentUser = user;
+    isOwner = (targetUid === currentUser.uid);
+    ownerMenuBtn.classList.toggle('hidden', !isOwner);
+    await loadStatuses();
+  });
+
+  async function loadStatuses(){
+    try{
+      const q = query(collection(db, 'statuses'), where('uid', '==', targetUid));
+      const snap = await getDocs(q);
+      const now = Date.now();
+      statuses = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .filter(s => {
+          const expiresAtMs = s.expiresAt && s.expiresAt.toMillis ? s.expiresAt.toMillis() : 0;
+          return expiresAtMs > now;
+        })
+        .sort((a, b) => {
+          const at = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+          const bt = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+          return at - bt;
+        });
+
+      if(statuses.length === 0){
+        emptyStatusMsg.classList.remove('hidden');
+        storyStage.classList.add('hidden');
+        setTimeout(() => window.location.href = 'chat.html', 1500);
+        return;
+      }
+
+      buildProgressBars();
+      renderStory(0);
+    } catch(e){
+      showToast('تعذر تحميل الحالة');
+      setTimeout(() => window.location.href = 'chat.html', 1200);
+    }
+  }
+
+  function buildProgressBars(){
+    progressRow.innerHTML = statuses.map(() => `
+      <div class="progress-track"><div class="progress-fill"></div></div>
+    `).join('');
+  }
+
+  function renderStory(index){
+    if(index < 0){ window.location.href = 'chat.html'; return; }
+    if(index >= statuses.length){ window.location.href = 'chat.html'; return; }
+
+    currentIndex = index;
+    const s = statuses[index];
+
+    // تحديث شريط التقدم: اللي فات يبقى مليان، الحالي يتعبى تدريجيًا، الباقي فاضي
+    const tracks = progressRow.querySelectorAll('.progress-track');
+    tracks.forEach((t, i) => {
+      t.classList.toggle('done', i < index);
+      const fill = t.querySelector('.progress-fill');
+      if(i < index) fill.style.width = '100%';
+      else if(i === index) fill.style.width = '0%';
+      else fill.style.width = '0%';
+    });
+
+    storyName.textContent = s.name || 'مستخدم';
+    storyAvatar.innerHTML = s.photoURL
+      ? `<img src="${s.photoURL}" alt="${s.name || 'مستخدم'}">`
+      : (s.name || '؟').charAt(0).toUpperCase();
+    storyTime.textContent = formatStoryTime(s.createdAt);
+
+    storyMediaWrap.innerHTML = s.mediaType === 'video'
+      ? `<video src="${s.mediaData}" autoplay playsinline></video>`
+      : `<img src="${s.mediaData}" alt="حالة">`;
+
+    if(s.caption){
+      storyCaption.textContent = s.caption;
+      storyCaption.classList.remove('hidden');
+    } else {
+      storyCaption.classList.add('hidden');
+    }
+
+    if(isOwner){
+      seenByRow.classList.remove('hidden');
+      seenByCount.textContent = (s.viewedBy || []).length;
+    } else {
+      seenByRow.classList.add('hidden');
+      markViewed(s);
+    }
+
+    startProgress(s);
+  }
+
+  function formatStoryTime(createdAt){
+    if(!createdAt || !createdAt.toMillis) return '';
+    const ms = createdAt.toMillis();
+    const diffMin = Math.floor((Date.now() - ms) / 60000);
+    if(diffMin < 1) return 'الآن';
+    if(diffMin < 60) return `منذ ${diffMin} د`;
+    const diffH = Math.floor(diffMin / 60);
+    return `منذ ${diffH} س`;
+  }
+
+  async function markViewed(s){
+    if(!currentUser) return;
+    if((s.viewedBy || []).includes(currentUser.uid)) return;
+    try{
+      await updateDoc(doc(db, 'statuses', s.id), {
+        viewedBy: arrayUnion(currentUser.uid)
+      });
+      s.viewedBy = [...(s.viewedBy || []), currentUser.uid];
+    } catch(e){ /* تجاهل */ }
+  }
+
+  function startProgress(s){
+    clearTimeout(timerHandle);
+    const track = progressRow.children[currentIndex];
+    const fill = track.querySelector('.progress-fill');
+    fill.style.transition = 'none';
+    fill.style.width = '0%';
+
+    const videoEl = storyMediaWrap.querySelector('video');
+    const duration = videoEl ? null : DURATION_IMAGE; // الفيديو بياخد مدته الحقيقية
+
+    requestAnimationFrame(() => {
+      if(videoEl){
+        videoEl.addEventListener('loadedmetadata', () => {
+          const ms = (videoEl.duration || 8) * 1000;
+          fill.style.transition = `width ${ms}ms linear`;
+          fill.style.width = '100%';
+        }, { once:true });
+        videoEl.onended = () => goNext();
+      } else {
+        fill.style.transition = `width ${duration}ms linear`;
+        fill.style.width = '100%';
+        timerHandle = setTimeout(goNext, duration);
+      }
+    });
+  }
+
+  function goNext(){ renderStory(currentIndex + 1); }
+  function goPrev(){ renderStory(currentIndex - 1); }
+
+  zoneNext.addEventListener('click', goNext);
+  zonePrev.addEventListener('click', goPrev);
+  closeBtn.addEventListener('click', () => window.location.href = 'chat.html');
+
+  // وقف العرض مؤقتًا أثناء الضغط المطول (زي الواتساب)
+  let pressTimer = null;
+  function pauseAll(){
+    paused = true;
+    clearTimeout(timerHandle);
+    const fill = progressRow.children[currentIndex]?.querySelector('.progress-fill');
+    if(fill) fill.style.animationPlayState = 'paused';
+    const videoEl = storyMediaWrap.querySelector('video');
+    if(videoEl) videoEl.pause();
+    if(fill){
+      const computed = getComputedStyle(fill).width;
+      fill.style.transition = 'none';
+      fill.style.width = computed;
+    }
+  }
+  function resumeAll(){
+    if(!paused) return;
+    paused = false;
+    const videoEl = storyMediaWrap.querySelector('video');
+    if(videoEl){ videoEl.play().catch(()=>{}); }
+    else { renderStory(currentIndex); }
+  }
+  [zonePrev, zoneNext].forEach(zone => {
+    zone.addEventListener('mousedown', () => { pressTimer = setTimeout(pauseAll, 180); });
+    zone.addEventListener('touchstart', () => { pressTimer = setTimeout(pauseAll, 180); }, { passive:true });
+    zone.addEventListener('mouseup', () => { clearTimeout(pressTimer); resumeAll(); });
+    zone.addEventListener('touchend', () => { clearTimeout(pressTimer); resumeAll(); });
+    zone.addEventListener('mouseleave', () => { clearTimeout(pressTimer); });
+  });
+
+  // ====================================================
+  // قايمة الثلاث نقط (حذف / مشاركة / إخفاء) - لصاحبة الحالة فقط
+  // ====================================================
+  function openOwnerMenu(){
+    pauseAll();
+    ownerMenu.classList.add('show');
+    ownerMenuBackdrop.classList.add('show');
+  }
+  function closeOwnerMenu(){
+    ownerMenu.classList.remove('show');
+    ownerMenuBackdrop.classList.remove('show');
+    resumeAll();
+  }
+  ownerMenuBtn.addEventListener('click', openOwnerMenu);
+  ownerMenuBackdrop.addEventListener('click', closeOwnerMenu);
+
+  deleteStatusBtn.addEventListener('click', async () => {
+    const s = statuses[currentIndex];
+    closeOwnerMenu();
+    if(!confirm('متأكدة إنك عاوزة تحذفي الحالة دي؟')) { resumeAll(); return; }
+    try{
+      await deleteDoc(doc(db, 'statuses', s.id));
+      statuses.splice(currentIndex, 1);
+      if(statuses.length === 0){
+        window.location.href = 'chat.html';
+        return;
+      }
+      buildProgressBars();
+      renderStory(Math.min(currentIndex, statuses.length - 1));
+      showToast('تم حذف الحالة');
+    } catch(e){
+      showToast('تعذر حذف الحالة');
+    }
+  });
+
+  shareStatusBtn.addEventListener('click', async () => {
+    const s = statuses[currentIndex];
+    closeOwnerMenu();
+    try{
+      if(navigator.share){
+        await navigator.share({
+          title: 'حالة AChat',
+          text: s.caption || 'شاهد حالتي على AChat',
+          url: window.location.href
+        });
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        showToast('تم نسخ رابط الحالة');
+      }
+    } catch(e){ /* المستخدم لغى المشاركة، تجاهل */ }
+  });
+
+  hideStatusBtn.addEventListener('click', async () => {
+    closeOwnerMenu();
+    await openHideSheet();
+  });
+
+  // ====================================================
+  // شاشة اختيار الأكونتات اللي هتتخفي عنهم الحالة
+  // ====================================================
+  async function openHideSheet(){
+    const s = statuses[currentIndex];
+    selectedHideUids = new Set(s.hiddenFrom || []);
+
+    if(allUsersCache.length === 0){
+      try{
+        const usersSnap = await getDocs(collection(db, 'users'));
+        allUsersCache = usersSnap.docs
+          .map(d => d.data())
+          .filter(u => u.uid !== currentUser.uid);
+      } catch(e){
+        showToast('تعذر تحميل قائمة المستخدمين');
+        return;
+      }
+    }
+
+    renderHideList();
+    hideSheet.classList.add('show');
+    hideSheetBackdrop.classList.add('show');
+  }
+
+  function renderHideList(){
+    if(allUsersCache.length === 0){
+      hideSheetList.innerHTML = '<div class="empty-hide-list">لا يوجد مستخدمين تانيين حاليًا</div>';
+      return;
+    }
+    hideSheetList.innerHTML = allUsersCache.map(u => {
+      const checked = selectedHideUids.has(u.uid);
+      const avatarInner = u.photoURL
+        ? `<img src="${u.photoURL}" alt="${u.name || 'مستخدم'}">`
+        : (u.name || u.email || '؟').charAt(0).toUpperCase();
+      return `
+        <div class="hide-user-row ${checked ? 'checked' : ''}" data-uid="${u.uid}">
+          <div class="hide-avatar">${avatarInner}</div>
+          <div class="hide-user-name">${u.name || u.email || 'مستخدم'}</div>
+          <div class="hide-checkbox">${checked ? '✓' : ''}</div>
+        </div>
+      `;
+    }).join('');
+
+    hideSheetList.querySelectorAll('.hide-user-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const uid = row.dataset.uid;
+        const checkbox = row.querySelector('.hide-checkbox');
+        if(selectedHideUids.has(uid)){
+          selectedHideUids.delete(uid);
+          row.classList.remove('checked');
+          checkbox.textContent = '';
+        } else {
+          selectedHideUids.add(uid);
+          row.classList.add('checked');
+          checkbox.textContent = '✓';
+        }
+      });
+    });
+  }
+
+  function closeHideSheet(){
+    hideSheet.classList.remove('show');
+    hideSheetBackdrop.classList.remove('show');
+    resumeAll();
+  }
+  hideSheetBackdrop.addEventListener('click', closeHideSheet);
+
+  hideSaveBtn.addEventListener('click', async () => {
+    const s = statuses[currentIndex];
+    const list = Array.from(selectedHideUids);
+    try{
+      await updateDoc(doc(db, 'statuses', s.id), { hiddenFrom: list });
+      s.hiddenFrom = list;
+      closeHideSheet();
+      showToast('تم تحديث إخفاء الحالة');
+    } catch(e){
+      showToast('تعذر حفظ الإخفاء');
+    }
+  });
+</script>
+
+</body>
+</html>
