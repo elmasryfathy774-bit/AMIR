@@ -95,7 +95,13 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:22px;
+    gap:24px;
+    padding:16px 0;
+    animation:slideUp .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes slideUp{
+    from{ transform:translateY(20px); opacity:0; }
+    to{ transform:translateY(0); opacity:1; }
   }
   .call-btn{
     width:58px; height:58px;
@@ -104,57 +110,92 @@
     display:flex; align-items:center; justify-content:center;
     font-size:23px;
     cursor:pointer;
-    transition:transform .12s, filter .15s, background .15s;
+    transition:all .18s cubic-bezier(0.34, 1.56, 0.64, 1);
     flex-shrink:0;
+    font-weight:600;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
   }
-  .call-btn:active{ transform:scale(.92); }
+  .call-btn:hover{ 
+    transform:scale(1.08);
+    box-shadow:0 6px 16px rgba(0,0,0,.22);
+  }
+  .call-btn:active{ 
+    transform:scale(.95);
+    box-shadow:0 2px 8px rgba(0,0,0,.12);
+  }
+  
   .call-btn.mute{
-    background:rgba(255,255,255,.08);
-    border:1px solid var(--border-soft);
+    background:rgba(255,255,255,.1);
+    border:1.5px solid rgba(255,255,255,.15);
     color:var(--text);
+  }
+  .call-btn.mute:hover{
+    background:rgba(255,255,255,.15);
+    border-color:rgba(255,255,255,.25);
   }
   .call-btn.mute.active{
-    background:var(--cyan);
+    background:linear-gradient(135deg, var(--cyan), #1A8FB8);
     color:#06121C;
+    border-color:transparent;
   }
+  
   .call-btn.speaker{
-    background:rgba(255,255,255,.08);
-    border:1px solid var(--border-soft);
+    background:rgba(255,255,255,.1);
+    border:1.5px solid rgba(255,255,255,.15);
     color:var(--text);
   }
-  .call-btn.speaker.active{
-    background:var(--cyan);
-    color:#06121C;
+  .call-btn.speaker:hover{
+    background:rgba(255,255,255,.15);
+    border-color:rgba(255,255,255,.25);
   }
+  .call-btn.speaker.active{
+    background:linear-gradient(135deg, var(--cyan), #1A8FB8);
+    color:#06121C;
+    border-color:transparent;
+  }
+  
   .call-btn.invite{
-    background:rgba(255,255,255,.08);
-    border:1px solid var(--border-soft);
+    background:rgba(255,255,255,.1);
+    border:1.5px solid rgba(255,255,255,.15);
     color:var(--text);
     font-size:22px;
   }
   .call-btn.invite:hover{
-    background:var(--cyan);
+    background:linear-gradient(135deg, var(--cyan), #1A8FB8);
     color:#06121C;
-    border-color:var(--cyan);
+    border-color:transparent;
   }
+  
   .call-btn.end{
     width:66px; height:66px;
     background:linear-gradient(135deg, var(--danger), #C73B54);
     color:#fff;
     font-size:26px;
-    box-shadow:0 10px 26px -10px rgba(255,93,117,.6);
+    box-shadow:0 8px 20px -8px rgba(255,93,117,.5);
+    border:none;
   }
+  .call-btn.end:hover{
+    transform:scale(1.06);
+    box-shadow:0 10px 26px -6px rgba(255,93,117,.65);
+  }
+  
   .call-btn.accept{
     width:66px; height:66px;
     background:linear-gradient(135deg, #2FE08A, #17B66E);
     color:#06121C;
     font-size:26px;
-    box-shadow:0 10px 26px -10px rgba(47,224,138,.6);
+    box-shadow:0 8px 20px -8px rgba(47,224,138,.5);
     animation:acceptPulse 1.4s ease-in-out infinite;
+    border:none;
   }
+  .call-btn.accept:hover{
+    filter:brightness(1.12);
+    box-shadow:0 10px 28px -6px rgba(47,224,138,.65);
+  }
+  
   @keyframes acceptPulse{
-    0%,100%{ box-shadow:0 10px 26px -10px rgba(47,224,138,.6); }
-    50%{ box-shadow:0 10px 36px -8px rgba(47,224,138,.95); }
+    0%,100%{ box-shadow:0 8px 20px -8px rgba(47,224,138,.5); }
+    50%{ box-shadow:0 10px 30px -4px rgba(47,224,138,.7); }
   }
 
   /* ===== Group Call Modal ===== */
@@ -315,7 +356,7 @@
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
   import {
     doc, getDoc, setDoc, updateDoc, onSnapshot, deleteDoc,
-    collection, addDoc, query, onSnapshot as onSnapshotSub, serverTimestamp, deleteField
+    collection, addDoc, query, onSnapshot as onSnapshotSub, serverTimestamp, deleteField, getDocs
   } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
   const params = new URLSearchParams(window.location.search);
@@ -876,48 +917,57 @@
   // تحميل قائمة الأصدقاء عند النقر على زر الإضافة
   inviteBtn.addEventListener('click', async () => {
     try{
-      // جلب قائمة جهات الاتصال من Firestore
-      const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-      const contacts = userDoc.data()?.contacts || [];
+      // جلب جميع المستخدمين المسجلين (Accounts) من Firestore
+      const usersCollection = await getDocs(collection(db, 'users'));
+      const availableUsers = [];
       
-      if(contacts.length === 0){
-        console.log('[v0] No contacts available');
-        friendsList.innerHTML = '<p style="text-align:center; color:var(--muted);">لا توجد جهات اتصال</p>';
+      usersCollection.forEach(doc => {
+        const userData = doc.data();
+        // تصفية المستخدم الحالي والمستخدمين المحظوريين
+        if(doc.id !== currentUser.uid && !userData.blockedUsers?.includes(currentUser.uid)){
+          availableUsers.push({
+            uid: doc.id,
+            name: userData.name || userData.displayName || userData.email || 'مستخدم',
+            email: userData.email || '',
+            isOnline: userData.isOnline || false
+          });
+        }
+      });
+      
+      if(availableUsers.length === 0){
+        console.log('[v0] No available accounts');
+        friendsList.innerHTML = '<p style="text-align:center; color:var(--muted);">لا توجد حسابات متاحة</p>';
       } else {
         friendsList.innerHTML = '';
-        for(const contactUid of contacts){
-          try{
-            const contactDoc = await getDoc(doc(db, 'users', contactUid));
-            if(contactDoc.exists()){
-              const contact = contactDoc.data();
-              const friendItem = document.createElement('div');
-              friendItem.className = 'friend-item';
-              friendItem.innerHTML = `
-                <input type="checkbox" value="${contactUid}" class="friend-checkbox">
-                <div class="friend-info">
-                  <div class="friend-name">${contact.name || contact.displayName || 'مستخدم'}</div>
-                  <div class="friend-email">${contact.email || ''}</div>
-                </div>
-              `;
-              const checkbox = friendItem.querySelector('.friend-checkbox');
-              checkbox.addEventListener('change', (e) => {
-                if(e.target.checked){
-                  selectedFriends.add(contactUid);
-                } else {
-                  selectedFriends.delete(contactUid);
-                }
-                startGroupBtn.disabled = selectedFriends.size === 0;
-              });
-              friendsList.appendChild(friendItem);
+        // ترتيب المستخدمين النشطين أولاً
+        availableUsers.sort((a, b) => (b.isOnline ? 1 : 0) - (a.isOnline ? 1 : 0));
+        
+        for(const user of availableUsers){
+          const friendItem = document.createElement('div');
+          friendItem.className = 'friend-item';
+          const onlineIndicator = user.isOnline ? '🟢' : '⚪';
+          friendItem.innerHTML = `
+            <input type="checkbox" value="${user.uid}" class="friend-checkbox">
+            <div class="friend-info">
+              <div class="friend-name">${onlineIndicator} ${user.name}</div>
+              <div class="friend-email">${user.email || 'بدون بريد'}</div>
+            </div>
+          `;
+          const checkbox = friendItem.querySelector('.friend-checkbox');
+          checkbox.addEventListener('change', (e) => {
+            if(e.target.checked){
+              selectedFriends.add(user.uid);
+            } else {
+              selectedFriends.delete(user.uid);
             }
-          } catch(e){
-            console.log('[v0] Error loading contact:', e.message);
-          }
+            startGroupBtn.disabled = selectedFriends.size === 0;
+          });
+          friendsList.appendChild(friendItem);
         }
       }
       groupCallModal.classList.add('show');
     } catch(e){
-      console.log('[v0] Error loading contacts:', e.message);
+      console.log('[v0] Error loading available accounts:', e.message);
     }
   });
 

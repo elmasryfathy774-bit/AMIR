@@ -322,6 +322,36 @@
     transform:translateX(-50%) translateY(0);
   }
 
+  /* ===== Language Switcher ===== */
+  .lang-switcher{
+    position:fixed;
+    top:20px;
+    right:20px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--border-soft);
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:all .25s;
+    z-index:100;
+  }
+  .lang-switcher:hover{
+    background:rgba(255,255,255,.08);
+    border-color:var(--cyan);
+  }
+  .lang-switcher::before{
+    content:"🌐";
+    font-size:16px;
+  }
+  .lang-switcher span{
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+  }
+
   @media (max-width:820px){
     .shell{ grid-template-columns:1fr; min-height:auto; }
     .brand{ padding:36px 32px; min-height:220px; }
@@ -341,6 +371,11 @@
 </style>
 </head>
 <body>
+
+  <!-- Language Switcher -->
+  <div class="lang-switcher" id="langSwitcher">
+    <span id="langText">EN</span>
+  </div>
 
   <div class="shell">
 
@@ -537,6 +572,142 @@
   });
 
   // ملاحظة: signupLink رابط حقيقي يوديك على signup.html
+
+  // ====================================================
+  // تغيير اللغة - العربية / الإنجليزية
+  // ====================================================
+  const langSwitcher = document.getElementById('langSwitcher');
+  const langText = document.getElementById('langText');
+  const html = document.documentElement;
+  
+  // نصوص اللغات
+  const translations = {
+    ar: {
+      'signin': 'تسجيل الدخول',
+      'enter-data': 'أدخل بياناتك للمتابعة إلى محادثاتك',
+      'email-label': 'البريد الإلكتروني',
+      'email-placeholder': 'example@email.com',
+      'password-label': 'كلمة المرور',
+      'password-placeholder': '••••••••',
+      'show-pass': 'إظهار',
+      'hide-pass': 'إخفاء',
+      'remember': 'تذكرني',
+      'forgot-pass': 'هل نسيت كلمة المرور؟',
+      'signin-btn': 'تسجيل الدخول',
+      'signup-link': 'ليس لديك حساب؟ إنشاء حساب',
+      'brand-title': 'تواصل وقت ما تحب.',
+      'brand-desc': 'AChat بتخليك قريب من اللي يهمك، رسالة بتوصل في ثانية، أي وقت وأي مكان.',
+      'typing': 'في ناس بتكتب دلوقتي…',
+      'online': 'متصل',
+      'copyright': '© AChat 2026',
+      'loading': 'جاري الدخول...',
+      'success': 'تسجيل دخول ناجح، جاري التحويل...',
+      'email-required': 'البريد الإلكتروني مطلوب',
+      'email-invalid': 'صيغة البريد الإلكتروني غير صحيحة',
+      'password-required': 'كلمة المرور مطلوبة',
+      'password-min': 'كلمة المرور لازم تكون 6 حروف على الأقل',
+      'title': 'AChat | تسجيل الدخول'
+    },
+    en: {
+      'signin': 'Sign In',
+      'enter-data': 'Enter your details to continue to your chats',
+      'email-label': 'Email Address',
+      'email-placeholder': 'example@email.com',
+      'password-label': 'Password',
+      'password-placeholder': '••••••••',
+      'show-pass': 'Show',
+      'hide-pass': 'Hide',
+      'remember': 'Remember me',
+      'forgot-pass': 'Forgot password?',
+      'signin-btn': 'Sign In',
+      'signup-link': 'Don\'t have an account? Create one',
+      'brand-title': 'Connect when you love.',
+      'brand-desc': 'AChat keeps you close to what matters, messages delivered in seconds, anytime, anywhere.',
+      'typing': 'People are typing now…',
+      'online': 'Online',
+      'copyright': '© AChat 2026',
+      'loading': 'Signing in...',
+      'success': 'Sign in successful, redirecting...',
+      'email-required': 'Email is required',
+      'email-invalid': 'Please enter a valid email',
+      'password-required': 'Password is required',
+      'password-min': 'Password must be at least 6 characters',
+      'title': 'AChat | Sign In'
+    }
+  };
+
+  // الحصول على اللغة المحفوظة أو اللغة الافتراضية
+  function getCurrentLanguage(){
+    return localStorage.getItem('achat-lang') || 'ar';
+  }
+
+  // تطبيق اللغة
+  function applyLanguage(lang){
+    const isArabic = lang === 'ar';
+    html.lang = lang;
+    html.dir = isArabic ? 'rtl' : 'ltr';
+    document.title = translations[lang]['title'];
+    
+    // تحديث جميع النصوص
+    const elements = {
+      'signin': document.querySelector('.form-head h2'),
+      'enter-data': document.querySelector('.form-head p'),
+      'email-label': document.querySelector('label[for="email"]'),
+      'email-placeholder': emailInput,
+      'password-label': document.querySelector('label[for="password"]'),
+      'password-placeholder': passwordInput,
+      'show-pass': toggleEye,
+      'remember': document.querySelector('.remember span'),
+      'forgot-pass': document.querySelector('.forgot-pass'),
+      'signin-btn': submitBtn,
+      'signup-link': document.querySelector('.signup-prompt'),
+      'brand-title': document.querySelector('.brand-mid h1'),
+      'brand-desc': document.querySelector('.brand-mid p'),
+      'typing': document.querySelector('.typing-chip small'),
+      'online': document.querySelector('.status-dot'),
+      'copyright': document.querySelector('.brand-bottom')
+    };
+
+    if(elements['signin']) elements['signin'].textContent = translations[lang]['signin'];
+    if(elements['enter-data']) elements['enter-data'].textContent = translations[lang]['enter-data'];
+    if(elements['email-label']) elements['email-label'].textContent = translations[lang]['email-label'];
+    if(elements['email-placeholder']) elements['email-placeholder'].placeholder = translations[lang]['email-placeholder'];
+    if(elements['password-label']) elements['password-label'].textContent = translations[lang]['password-label'];
+    if(elements['password-placeholder']) elements['password-placeholder'].placeholder = translations[lang]['password-placeholder'];
+    if(elements['show-pass']) elements['show-pass'].textContent = translations[lang]['show-pass'];
+    if(elements['remember']) elements['remember'].textContent = translations[lang]['remember'];
+    if(elements['forgot-pass']) elements['forgot-pass'].textContent = translations[lang]['forgot-pass'];
+    if(elements['signin-btn']) {
+      btnText.textContent = translations[lang]['signin-btn'];
+    }
+    if(elements['brand-title']) {
+      elements['brand-title'].innerHTML = isArabic ? 
+        'تواصل وقت <span class="accent-text">ما تحب.</span>' : 
+        'Connect when you <span class="accent-text">love.</span>';
+    }
+    if(elements['brand-desc']) elements['brand-desc'].textContent = translations[lang]['brand-desc'];
+    if(elements['typing']) elements['typing'].textContent = translations[lang]['typing'];
+    if(elements['online']) elements['online'].title = translations[lang]['online'];
+    if(elements['copyright']) elements['copyright'].textContent = translations[lang]['copyright'];
+    if(elements['signup-link']) {
+      elements['signup-link'].innerHTML = isArabic ? 
+        'ليس لديك حساب؟ <a href="signup.html">إنشاء حساب</a>' :
+        'Don\'t have an account? <a href="signup.html">Create one</a>';
+    }
+
+    langText.textContent = isArabic ? 'EN' : 'AR';
+    localStorage.setItem('achat-lang', lang);
+  }
+
+  // تبديل اللغة
+  langSwitcher.addEventListener('click', () => {
+    const currentLang = getCurrentLanguage();
+    const newLang = currentLang === 'ar' ? 'en' : 'ar';
+    applyLanguage(newLang);
+  });
+
+  // تطبيق اللغة عند تحميل الصفحة
+  applyLanguage(getCurrentLanguage());
 </script>
 
 </body>
