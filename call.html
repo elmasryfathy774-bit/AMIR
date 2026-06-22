@@ -126,6 +126,17 @@
     background:var(--cyan);
     color:#06121C;
   }
+  .call-btn.invite{
+    background:rgba(255,255,255,.08);
+    border:1px solid var(--border-soft);
+    color:var(--text);
+    font-size:22px;
+  }
+  .call-btn.invite:hover{
+    background:var(--cyan);
+    color:#06121C;
+    border-color:var(--cyan);
+  }
   .call-btn.end{
     width:66px; height:66px;
     background:linear-gradient(135deg, var(--danger), #C73B54);
@@ -144,6 +155,111 @@
   @keyframes acceptPulse{
     0%,100%{ box-shadow:0 10px 26px -10px rgba(47,224,138,.6); }
     50%{ box-shadow:0 10px 36px -8px rgba(47,224,138,.95); }
+  }
+
+  /* ===== Group Call Modal ===== */
+  .modal-overlay-group{
+    position:fixed; inset:0;
+    background:rgba(5,8,16,.8);
+    backdrop-filter:blur(4px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-overlay-group.show{ display:flex; }
+  .modal-box-group{
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:22px;
+    padding:26px 24px;
+    max-width:380px;
+    width:100%;
+    box-shadow:0 30px 70px -25px rgba(0,0,0,.7);
+    max-height:70vh;
+    overflow-y:auto;
+  }
+  .modal-box-group h2{
+    font-size:17px;
+    font-weight:800;
+    margin-bottom:18px;
+    text-align:center;
+  }
+  .friends-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-bottom:20px;
+  }
+  .friend-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 12px;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--border-soft);
+    border-radius:12px;
+    cursor:pointer;
+    transition:background .15s, border-color .15s;
+  }
+  .friend-item:hover{
+    background:rgba(255,255,255,.08);
+    border-color:var(--cyan);
+  }
+  .friend-item input[type="checkbox"]{
+    width:20px;
+    height:20px;
+    cursor:pointer;
+    accent-color:var(--cyan);
+    flex-shrink:0;
+  }
+  .friend-info{
+    flex:1;
+    min-width:0;
+    text-align:right;
+  }
+  .friend-name{
+    font-weight:600;
+    font-size:14px;
+    margin-bottom:2px;
+  }
+  .friend-email{
+    font-size:12px;
+    color:var(--muted);
+  }
+  .modal-actions{
+    display:flex;
+    gap:10px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px;
+    border-radius:11px;
+    border:1px solid var(--border-soft);
+    background:rgba(255,255,255,.05);
+    color:var(--text);
+    font-family:inherit;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    transition:background .15s, border-color .15s;
+  }
+  .modal-actions button:hover{
+    background:rgba(255,255,255,.08);
+    border-color:var(--cyan);
+  }
+  .modal-actions button.start-btn{
+    background:linear-gradient(135deg, var(--cyan), #1A8FB8);
+    border:none;
+    color:#06121C;
+  }
+  .modal-actions button.start-btn:hover{
+    background:linear-gradient(135deg, #1AC0FF, #0E7FA0);
+  }
+  .modal-actions button.start-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
   }
 
   .hidden{ display:none !important; }
@@ -178,7 +294,20 @@
   <div class="call-actions hidden" id="activeActions">
     <button type="button" class="call-btn mute" id="muteBtn" title="كتم الصوت">🎤</button>
     <button type="button" class="call-btn speaker" id="speakerBtn" title="مكبر الصوت">🔊</button>
+    <button type="button" class="call-btn invite" id="inviteBtn" title="إضافة أشخاص">➕</button>
     <button type="button" class="call-btn end" id="endBtn" title="إنهاء المكالمة">📞</button>
+  </div>
+
+  <!-- Group Call Modal -->
+  <div class="modal-overlay-group" id="groupCallModal">
+    <div class="modal-box-group">
+      <h2>اختر الأصدقاء</h2>
+      <div class="friends-list" id="friendsList"></div>
+      <div class="modal-actions">
+        <button type="button" id="cancelGroupBtn">إلغاء</button>
+        <button type="button" class="start-btn" id="startGroupBtn" disabled>بدء المكالمة</button>
+      </div>
+    </div>
   </div>
 
 <script type="module">
@@ -257,6 +386,42 @@
       { urls: 'turn:numb.viagenie.ca', username: 'webrtc@live.com', credential: 'muazkh' }
     ]
   };
+
+  // ====================================================
+  // ضغط الصور قبل الرفع (Canvas API)
+  // ====================================================
+  async function compressImage(file, maxWidth = 800, quality = 0.7){
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          
+          if(width > maxWidth){
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          canvas.toBlob(blob => {
+            console.log(`[v0] Image compressed: ${(file.size / 1024).toFixed(2)}KB → ${(blob.size / 1024).toFixed(2)}KB`);
+            resolve(blob);
+          }, 'image/jpeg', quality);
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = event.target.result;
+      };
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsDataURL(file);
+    });
+  }
 
   onAuthStateChanged(auth, (user) => {
     if(!user){ window.location.href = 'index.html'; return; }
@@ -375,6 +540,36 @@
   // أحداث RTCPeerConnection المشتركة
   // ====================================================
   let disconnectWatchdog = null; // تأخير قبل اعتبار الاتصال منتهي فعلاً
+  let iceRestartAttempts = 0; // عداد محاولات إعادة تشغيل ICE
+  const MAX_ICE_RESTART_ATTEMPTS = 3; // الحد الأقصى لمحاولات إعادة التشغيل
+
+  async function attemptIceRestart(){
+    if(!pc || iceRestartAttempts >= MAX_ICE_RESTART_ATTEMPTS){
+      if(iceRestartAttempts >= MAX_ICE_RESTART_ATTEMPTS){
+        endCall('failed');
+      }
+      return;
+    }
+    
+    iceRestartAttempts++;
+    console.log(`[v0] ICE restart attempt ${iceRestartAttempts}/${MAX_ICE_RESTART_ATTEMPTS}`);
+    
+    try{
+      // استخدم exponential backoff قبل المحاولة
+      const delayMs = Math.pow(2, iceRestartAttempts - 1) * 500; // 500ms, 1s, 2s
+      await new Promise(resolve => setTimeout(resolve, delayMs));
+      
+      if(pc){
+        await pc.restartIce();
+        console.log('[v0] ICE restart requested');
+      }
+    } catch(e){
+      console.log('[v0] ICE restart error:', e.message);
+      if(iceRestartAttempts >= MAX_ICE_RESTART_ATTEMPTS){
+        endCall('failed');
+      }
+    }
+  }
 
   function attachPcHandlers(){
     // ── الصوت: بنشغّله مباشرة وبنحافظ على srcObject حتى لو ontrack اتنادي أكتر من مرة ──
@@ -438,20 +633,19 @@
       const s = pc.iceConnectionState;
       if(s === 'connected' || s === 'completed'){
         clearTimeout(disconnectWatchdog);
+        iceRestartAttempts = 0; // إعادة تعيين عداد المحاولات عند الاتصال الناجح
         if(!wasConnected) onConnected();
       }
       if(s === 'failed'){
-        if(pc.restartIce){
-          pc.restartIce(); // محاولة تلقائية للإصلاح
-        } else {
-          endCall('failed');
-        }
+        console.log('[v0] ICE connection state: failed, attempting restart');
+        attemptIceRestart();
       }
       if(s === 'disconnected'){
         if(!disconnectWatchdog){
           disconnectWatchdog = setTimeout(() => {
             if(!callEnded && pc && pc.iceConnectionState !== 'connected' && pc.iceConnectionState !== 'completed'){
-              endCall('disconnected');
+              console.log('[v0] ICE disconnected for 8s, attempting restart');
+              attemptIceRestart();
             }
           }, 8000);
         }
@@ -525,7 +719,16 @@
     peerAvatarEl.classList.add('connected');
     muteBtn.classList.remove('hidden');
     speakerBtn.classList.remove('hidden');
+    inviteBtn.classList.remove('hidden');
     startTimer();
+    
+    // إرسال حدث busy status عند بدء المكالمة
+    if(currentUser && currentUser.uid){
+      updateDoc(doc(db, 'users', currentUser.uid), {
+        currentStatus: 'busy',
+        busyStartTime: serverTimestamp()
+      }).catch(e => console.log('[v0] Error updating busy status:', e.message));
+    }
   }
 
   function startTimer(){
@@ -579,6 +782,13 @@
     try{
       await updateDoc(callDocRef, { status: 'ended' }).catch(()=>{});
     } finally {
+      // تحديث حالة المستخدم إلى active عند إنهاء المكالمة
+      if(currentUser && currentUser.uid){
+        updateDoc(doc(db, 'users', currentUser.uid), {
+          currentStatus: 'active'
+        }).catch(e => console.log('[v0] Error updating user status:', e.message));
+      }
+      
       const msg = reason === 'no_answer' ? 'لا يوجد رد' :
                   reason === 'user_hangup' ? 'تم إنهاء المكالمة' :
                   wasConnected ? 'انقطع الاتصال' : 'تعذر الاتصال';
@@ -650,6 +860,104 @@
       // فallback: التحكم في مستوى الصوت بس (أغلب متصفحات الموبايل بتطلع الصوت
       // من المكبر الخارجي افتراضيًا أثناء استخدام الكاميرا/المايك بأي حال)
       remoteAudio.volume = speakerOn ? 1.0 : 0.6;
+    }
+  });
+
+  // ====================================================
+  // مجموعة المكالمات - إضافة أصدقاء وبدء مكالمة جماعية
+  // ====================================================
+  const groupCallModal = document.getElementById('groupCallModal');
+  const friendsList = document.getElementById('friendsList');
+  const inviteBtn = document.getElementById('inviteBtn');
+  const cancelGroupBtn = document.getElementById('cancelGroupBtn');
+  const startGroupBtn = document.getElementById('startGroupBtn');
+  let selectedFriends = new Set();
+
+  // تحميل قائمة الأصدقاء عند النقر على زر الإضافة
+  inviteBtn.addEventListener('click', async () => {
+    try{
+      // جلب قائمة جهات الاتصال من Firestore
+      const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+      const contacts = userDoc.data()?.contacts || [];
+      
+      if(contacts.length === 0){
+        console.log('[v0] No contacts available');
+        friendsList.innerHTML = '<p style="text-align:center; color:var(--muted);">لا توجد جهات اتصال</p>';
+      } else {
+        friendsList.innerHTML = '';
+        for(const contactUid of contacts){
+          try{
+            const contactDoc = await getDoc(doc(db, 'users', contactUid));
+            if(contactDoc.exists()){
+              const contact = contactDoc.data();
+              const friendItem = document.createElement('div');
+              friendItem.className = 'friend-item';
+              friendItem.innerHTML = `
+                <input type="checkbox" value="${contactUid}" class="friend-checkbox">
+                <div class="friend-info">
+                  <div class="friend-name">${contact.name || contact.displayName || 'مستخدم'}</div>
+                  <div class="friend-email">${contact.email || ''}</div>
+                </div>
+              `;
+              const checkbox = friendItem.querySelector('.friend-checkbox');
+              checkbox.addEventListener('change', (e) => {
+                if(e.target.checked){
+                  selectedFriends.add(contactUid);
+                } else {
+                  selectedFriends.delete(contactUid);
+                }
+                startGroupBtn.disabled = selectedFriends.size === 0;
+              });
+              friendsList.appendChild(friendItem);
+            }
+          } catch(e){
+            console.log('[v0] Error loading contact:', e.message);
+          }
+        }
+      }
+      groupCallModal.classList.add('show');
+    } catch(e){
+      console.log('[v0] Error loading contacts:', e.message);
+    }
+  });
+
+  cancelGroupBtn.addEventListener('click', () => {
+    groupCallModal.classList.remove('show');
+    selectedFriends.clear();
+    startGroupBtn.disabled = true;
+  });
+
+  startGroupBtn.addEventListener('click', async () => {
+    if(selectedFriends.size === 0) return;
+    
+    try{
+      // إرسال حدث بدء مكالمة جماعية (يتطلب Socket.io على الخادم)
+      console.log(`[v0] Starting group call with ${selectedFriends.size} friends:`, Array.from(selectedFriends));
+      
+      // الآن يمكن إرسال حدث Socket.io (إذا كان متوفراً):
+      // if(window.socket){
+      //   socket.emit('start_group_call', {
+      //     initiatorUid: currentUser.uid,
+      //     selectedFriendUids: Array.from(selectedFriends),
+      //     chatId: chatId
+      //   });
+      // }
+      
+      // إغلاق النافذة
+      groupCallModal.classList.remove('show');
+      selectedFriends.clear();
+      startGroupBtn.disabled = true;
+    } catch(e){
+      console.log('[v0] Error starting group call:', e.message);
+    }
+  });
+
+  // إغلاق النافذة عند الضغط على خلفية overlay
+  groupCallModal.addEventListener('click', (e) => {
+    if(e.target === groupCallModal){
+      groupCallModal.classList.remove('show');
+      selectedFriends.clear();
+      startGroupBtn.disabled = true;
     }
   });
 
