@@ -254,11 +254,33 @@
     cursor:pointer;
     accent-color:var(--cyan);
     flex-shrink:0;
+    order:3;
+  }
+  .friend-avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--cyan), #1A8FB8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:16px;
+    color:#06121C;
+    flex-shrink:0;
+    overflow:hidden;
+    order:1;
+  }
+  .friend-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
   }
   .friend-info{
     flex:1;
     min-width:0;
     text-align:right;
+    order:2;
   }
   .friend-name{
     font-weight:600;
@@ -929,6 +951,7 @@
             uid: doc.id,
             name: userData.name || userData.displayName || userData.email || 'مستخدم',
             email: userData.email || '',
+            profilePicture: userData.profilePicture || '',
             isOnline: userData.isOnline || false
           });
         }
@@ -946,12 +969,18 @@
           const friendItem = document.createElement('div');
           friendItem.className = 'friend-item';
           const onlineIndicator = user.isOnline ? '🟢' : '⚪';
+          const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+          const profileHtml = user.profilePicture 
+            ? `<img src="${user.profilePicture}" alt="${user.name}">`
+            : initials;
+          
           friendItem.innerHTML = `
-            <input type="checkbox" value="${user.uid}" class="friend-checkbox">
+            <div class="friend-avatar">${profileHtml}</div>
             <div class="friend-info">
               <div class="friend-name">${onlineIndicator} ${user.name}</div>
               <div class="friend-email">${user.email || 'بدون بريد'}</div>
             </div>
+            <input type="checkbox" value="${user.uid}" class="friend-checkbox">
           `;
           const checkbox = friendItem.querySelector('.friend-checkbox');
           checkbox.addEventListener('change', (e) => {

@@ -143,31 +143,6 @@
     max-width:340px;
   }
 
-  .typing-chip{
-    margin-top:28px;
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    background:rgba(255,255,255,.04);
-    border:1px solid var(--border-soft);
-    padding:10px 16px;
-    border-radius:999px;
-    width:fit-content;
-  }
-  .typing-chip span.dot{
-    width:6px; height:6px; border-radius:50%;
-    background:var(--cyan);
-    display:inline-block;
-    animation:bounce 1.2s infinite ease-in-out;
-  }
-  .typing-chip span.dot:nth-child(2){ animation-delay:.15s; }
-  .typing-chip span.dot:nth-child(3){ animation-delay:.3s; }
-  @keyframes bounce{
-    0%,60%,100%{ transform:translateY(0); opacity:.5; }
-    30%{ transform:translateY(-4px); opacity:1; }
-  }
-  .typing-chip small{ color:rgba(234,242,250,.55); font-size:12.5px; }
-
   .brand-bottom{ position:relative; z-index:1; font-size:12.5px; color:rgba(234,242,250,.35); }
 
   /* ===== Form panel ===== */
@@ -360,13 +335,113 @@
     .form-panel{ padding:36px 32px; }
   }
 
+  /* ===== PIN Security Modal ===== */
+  .pin-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(5,8,16,.95);
+    backdrop-filter:blur(6px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:300;
+    padding:20px;
+  }
+  .pin-modal.show{ display:flex; }
+  .pin-box{
+    background:var(--surface);
+    border:1px solid var(--border-soft);
+    border-radius:24px;
+    padding:40px 32px;
+    max-width:360px;
+    width:100%;
+    box-shadow:0 40px 80px -25px rgba(0,0,0,.8);
+  }
+  .pin-box h3{
+    font-size:20px;
+    font-weight:800;
+    margin-bottom:12px;
+    text-align:center;
+  }
+  .pin-box p{
+    font-size:14px;
+    color:var(--muted);
+    text-align:center;
+    margin-bottom:28px;
+  }
+  .pin-input-group{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    justify-content:center;
+  }
+  .pin-input-group input{
+    width:48px;
+    height:48px;
+    font-size:24px;
+    font-weight:700;
+    text-align:center;
+    border:2px solid var(--border-soft);
+    background:rgba(255,255,255,.04);
+    border-radius:12px;
+    color:var(--text);
+    outline:none;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .pin-input-group input:focus{
+    border-color:var(--cyan);
+    box-shadow:0 0 0 4px var(--ring);
+  }
+  .pin-input-group input.error{
+    border-color:var(--danger);
+    animation:shake .3s ease-in-out;
+  }
+  @keyframes shake{
+    0%, 100%{ transform:translateX(0); }
+    25%{ transform:translateX(-8px); }
+    75%{ transform:translateX(8px); }
+  }
+  .pin-actions{
+    display:flex;
+    gap:10px;
+    margin-top:24px;
+  }
+  .pin-actions button{
+    flex:1;
+    padding:12px;
+    border-radius:11px;
+    border:1px solid var(--border-soft);
+    background:rgba(255,255,255,.05);
+    color:var(--text);
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    transition:all .15s;
+  }
+  .pin-actions button:hover{
+    background:rgba(255,255,255,.08);
+    border-color:var(--cyan);
+  }
+  .pin-actions button.confirm{
+    background:linear-gradient(135deg, var(--cyan), #1A8FB8);
+    border:none;
+    color:#06121C;
+  }
+  .pin-actions button.confirm:hover{
+    background:linear-gradient(135deg, #1AC0FF, #0E7FA0);
+  }
+  .pin-actions button.confirm:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+  }
+
   /* keyboard focus visibility */
   a:focus-visible, button:focus-visible, input:focus-visible{
     outline:2px solid var(--cyan);
     outline-offset:2px;
   }
   @media (prefers-reduced-motion: reduce){
-    .bubble-float, .typing-chip span.dot, .spinner, .status-dot{ animation:none !important; }
+    *{ animation:none !important; }
   }
 </style>
 </head>
@@ -396,10 +471,6 @@
       <div class="brand-mid">
         <h1>تواصل وقت <span class="accent-text">ما تحب.</span></h1>
         <p>AChat بتخليك قريب من اللي يهمك، رسالة بتوصل في ثانية، أي وقت وأي مكان.</p>
-        <div class="typing-chip">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          <small>في ناس بتكتب دلوقتي…</small>
-        </div>
       </div>
 
       <div class="brand-bottom">© AChat 2026</div>
@@ -417,43 +488,31 @@
           <label for="email">البريد الإلكتروني</label>
           <div class="input-wrap">
             <input type="email" id="email" placeholder="example@email.com" autocomplete="email">
-          </div>
-          <div class="err-msg" id="emailErr"></div>
-        </div>
-
-        <div class="field">
-          <label for="password">كلمة المرور</label>
-          <div class="input-wrap">
-            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
-            <button type="button" class="toggle-eye" id="toggleEye">إظهار</button>
-          </div>
-          <div class="err-msg" id="passwordErr"></div>
-        </div>
-
-        <div class="row-between">
-          <label class="remember">
-            <input type="checkbox" id="remember">
-            تذكرني
-          </label>
-          <a href="#" class="forgot">نسيت كلمة المرور؟</a>
-        </div>
-
-        <button type="submit" class="btn-primary" id="submitBtn">
-          <span class="spinner" id="spinner"></span>
-          <span id="btnText">تسجيل الدخول</span>
-        </button>
-      </form>
-
-      <div class="divider">أو</div>
-
-      <p class="signup-prompt">مفيش حساب؟ <a href="signup.html" id="signupLink">إنشاء حساب جديد</a></p>
     </div>
 
   </div>
 
-  <div class="toast" id="toast"></div>
+  <!-- PIN Security Modal -->
+  <div class="pin-modal" id="pinModal">
+    <div class="pin-box">
+      <h3 id="pinTitle">أدخل رقم التعريف</h3>
+      <p id="pinDesc">أدخل رقم 4-6 أرقام للخصوصية</p>
+      <div class="pin-input-group">
+        <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+        <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+        <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+        <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+        <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+        <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+      </div>
+      <div class="pin-actions">
+        <button type="button" id="pinSkipBtn">تخطي</button>
+        <button type="button" id="pinConfirmBtn" class="confirm" disabled>تأكيد</button>
+      </div>
+    </div>
+  </div>
 
-<script type="module">
+  <script type="module">
   import { auth } from './firebase-config.js';
   import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
@@ -597,7 +656,6 @@
       'signup-link': 'ليس لديك حساب؟ إنشاء حساب',
       'brand-title': 'تواصل وقت ما تحب.',
       'brand-desc': 'AChat بتخليك قريب من اللي يهمك، رسالة بتوصل في ثانية، أي وقت وأي مكان.',
-      'typing': 'في ناس بتكتب دلوقتي…',
       'online': 'متصل',
       'copyright': '© AChat 2026',
       'loading': 'جاري الدخول...',
@@ -623,7 +681,6 @@
       'signup-link': 'Don\'t have an account? Create one',
       'brand-title': 'Connect when you love.',
       'brand-desc': 'AChat keeps you close to what matters, messages delivered in seconds, anytime, anywhere.',
-      'typing': 'People are typing now…',
       'online': 'Online',
       'copyright': '© AChat 2026',
       'loading': 'Signing in...',
@@ -663,7 +720,6 @@
       'signup-link': document.querySelector('.signup-prompt'),
       'brand-title': document.querySelector('.brand-mid h1'),
       'brand-desc': document.querySelector('.brand-mid p'),
-      'typing': document.querySelector('.typing-chip small'),
       'online': document.querySelector('.status-dot'),
       'copyright': document.querySelector('.brand-bottom')
     };
@@ -686,7 +742,6 @@
         'Connect when you <span class="accent-text">love.</span>';
     }
     if(elements['brand-desc']) elements['brand-desc'].textContent = translations[lang]['brand-desc'];
-    if(elements['typing']) elements['typing'].textContent = translations[lang]['typing'];
     if(elements['online']) elements['online'].title = translations[lang]['online'];
     if(elements['copyright']) elements['copyright'].textContent = translations[lang]['copyright'];
     if(elements['signup-link']) {
@@ -708,6 +763,103 @@
 
   // تطبيق اللغة عند تحميل الصفحة
   applyLanguage(getCurrentLanguage());
+
+  // ====================================================
+  // PIN Security - أدخل رقم تعريف للخصوصية
+  // ====================================================
+  const pinModal = document.getElementById('pinModal');
+  const pinInputs = document.querySelectorAll('.pin-input');
+  const pinConfirmBtn = document.getElementById('pinConfirmBtn');
+  const pinSkipBtn = document.getElementById('pinSkipBtn');
+  const pinTitle = document.getElementById('pinTitle');
+  const pinDesc = document.getElementById('pinDesc');
+  
+  let isSettingPin = false;
+  let currentUser = null;
+
+  // Simple hash function for PIN storage
+  async function hashPin(pin){
+    const encoder = new TextEncoder();
+    const data = encoder.encode(pin);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  // Auto-focus between PIN inputs
+  pinInputs.forEach((input, index) => {
+    input.addEventListener('input', (e) => {
+      if(e.target.value && index < pinInputs.length - 1){
+        pinInputs[index + 1].focus();
+      }
+      updatePinButton();
+    });
+    
+    input.addEventListener('keydown', (e) => {
+      if(e.key === 'Backspace' && !e.target.value && index > 0){
+        pinInputs[index - 1].focus();
+      }
+    });
+  });
+
+  function updatePinButton(){
+    const pinValue = Array.from(pinInputs).map(i => i.value).join('');
+    pinConfirmBtn.disabled = pinValue.length < 4;
+  }
+
+  pinConfirmBtn.addEventListener('click', async () => {
+    const pinValue = Array.from(pinInputs).map(i => i.value).join('');
+    if(pinValue.length < 4) return;
+
+    try{
+      const hashedPin = await hashPin(pinValue);
+      await setDoc(doc(db, 'users', currentUser.uid), {
+        securityPin: hashedPin,
+        pinEnabled: true
+      }, { merge: true });
+
+      console.log('[v0] PIN set successfully');
+      pinModal.classList.remove('show');
+      window.location.href = 'chat.html';
+    } catch(e){
+      console.log('[v0] Error setting PIN:', e.message);
+      pinInputs.forEach(i => i.classList.add('error'));
+      setTimeout(() => {
+        pinInputs.forEach(i => i.classList.remove('error'));
+        pinInputs[0].focus();
+      }, 500);
+    }
+  });
+
+  pinSkipBtn.addEventListener('click', () => {
+    pinModal.classList.remove('show');
+    window.location.href = 'chat.html';
+  });
+
+  // Show PIN modal after successful login
+  const originalRedirect = () => {
+    currentUser = auth.currentUser;
+    if(currentUser){
+      getDoc(doc(db, 'users', currentUser.uid)).then(snap => {
+        if(snap.exists() && !snap.data().securityPin){
+          isSettingPin = true;
+          pinModal.classList.add('show');
+          pinInputs[0].focus();
+        } else if(!snap.exists()){
+          window.location.href = 'chat.html';
+        } else {
+          window.location.href = 'chat.html';
+        }
+      });
+    }
+  };
+
+  // Override the sign in button click to show PIN modal
+  const origSignIn = submitBtn.onclick;
+  submitBtn.onclick = async (e) => {
+    if(origSignIn) await origSignIn(e);
+    else originalRedirect();
+  };
 </script>
 
 </body>
