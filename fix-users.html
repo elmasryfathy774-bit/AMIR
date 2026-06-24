@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fix Users</title>
+<style>
+  body { font-family: sans-serif; background: #070B14; color: #EAF2FA; padding: 24px; }
+  h2 { color: #2FE0FF; }
+  .log { background: #0E1526; border-radius: 12px; padding: 16px; margin-top: 16px; font-size: 13px; line-height: 2; }
+  .ok { color: #25D366; }
+  .warn { color: #FFC107; }
+  .err { color: #FF5D75; }
+  button { background: linear-gradient(135deg,#2FE0FF,#1A4FD1); border: none; color: #06121C;
+    font-size: 15px; font-weight: 800; padding: 12px 28px; border-radius: 14px; cursor: pointer; margin-top: 16px; }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+</style>
+</head>
+<body>
+<h2>🔧 إصلاح بيانات الأعضاء</h2>
+<p>هذه الصفحة تصلح بيانات كل المستخدمين اللي مفيش اسم ليهم في Firestore.</p>
+<p style="color:#FFC107;">⚠️ افتح الصفحة دي مرة واحدة بس وبعدها امسحها.</p>
+<button id="startBtn" onclick="startFix()">ابدأ الإصلاح</button>
+<div class="log" id="log">في انتظار بدء الإصلاح...</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+import {
+  getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAs5bpE5ghPIRvKSwdv5Ux9X3BLf6_v7Ds",
+  authDomain: "studio-7558309738-de8bd.firebaseapp.com",
+  projectId: "studio-7558309738-de8bd",
+  storageBucket: "studio-7558309738-de8bd.firebasestorage.app",
+  messagingSenderId: "706229187023",
+  appId: "1:706229187023:web:1aae9ace7e289d0198a2ba"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const logEl = document.getElementById('log');
+const btn = document.getElementById('startBtn');
+
+function log(msg, type=''){
+  logEl.innerHTML += `<div class="${type}">${msg}</div>`;
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+window.startFix = async function(){
+  btn.disabled = true;
+  logEl.innerHTML = '';
+
+  // check auth
+  const user = auth.currentUser;
+  if(!user){ log('❌ لازم تكون مسجل دخول أول', 'err'); btn.disabled=false; return; }
+  log(`✅ مسجل دخول كـ: ${user.email}`, 'ok');
+
+  // step 1: get all users from Firestore
+  log('⏳ جاري جلب كل المستخدمين...');
+  let allUsers = [];
+  try{
+    const snap = await getDocs(collection(db,'users'));
+    allUsers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    log(`📋 عدد المستخدمين في Firestore: ${allUsers.length}`, 'ok');
+  }catch(e){
+    log(`❌ خطأ في جلب المستخدمين: ${e.message}`, 'err');
+    btn.disabled=false; return;
+  }
+
+  // step 2: get all group members
+  log('⏳ جاري جلب كل الجروبات...');
+  const allMemberUids = new Set();
+  try{
+    const gSnap = await getDocs(collection(db,'groups'));
+    gSnap.docs.forEach(d => {
+      const members = d.data().members || [];
+      members.forEach(uid => allMemberUids.add(uid));
+    });
+    log(`👥 إجمالي الأعضاء في كل الجروبات: ${allMemberUids.size}`, 'ok');
+  }catch(e){
+    log(`⚠️ خطأ في جلب الجروبات: ${e.message}`, 'warn');
+  }
+
+  // step 3: check which members have no Firestore doc or no name
+  const existingUids = new Set(allUsers.map(u => u.id));
+  const missingDocUids = [...allMemberUids].filter(uid => !existingUids.has(uid));
+  const missingNameUids = allUsers.filter(u => !(u.name || u.displayName)).map(u => u.id);
+
+  log(`⚠️ أعضاء بدون document في Firestore: ${missingDocUids.length}`, missingDocUids.length ? 'warn' : 'ok');
+  log(`⚠️ مستخدمين بدون اسم: ${missingNameUids.length}`, missingNameUids.length ? 'warn' : 'ok');
+
+  // step 4: for users with no name, try to get name from group messages
+  log('⏳ جاري البحث عن الأسماء من الرسائل...');
+  const nameMap = {}; // uid -> name
+
+  try{
+    const gSnap2 = await getDocs(collection(db,'groups'));
+    for(const gDoc of gSnap2.docs){
+      const msgSnap = await getDocs(collection(db,'groups',gDoc.id,'messages'));
+      msgSnap.docs.forEach(d => {
+        const m = d.data();
+        if(m.senderId && m.senderName && !nameMap[m.senderId]){
+          nameMap[m.senderId] = m.senderName;
+        }
+      });
+    }
+    log(`✅ أسماء محصلة من الرسائل: ${Object.keys(nameMap).length}`, 'ok');
+  }catch(e){
+    log(`⚠️ خطأ في قراءة الرسائل: ${e.message}`, 'warn');
+  }
+
+  // step 5: fix missing name users
+  let fixed = 0, skipped = 0, failed = 0;
+
+  for(const uid of missingNameUids){
+    const u = allUsers.find(x => x.id === uid) || {};
+    const recoveredName = nameMap[uid] || (u.email ? u.email.split('@')[0] : null);
+    if(!recoveredName){ skipped++; log(`⏭️ ${uid.slice(0,8)}... - مفيش اسم يتحفظ`, 'warn'); continue; }
+    try{
+      await updateDoc(doc(db,'users',uid), {
+        displayName: recoveredName,
+        name: recoveredName,
+        recoveredAt: new Date().toISOString()
+      });
+      fixed++;
+      log(`✅ تم إصلاح: ${recoveredName} (${uid.slice(0,8)}...)`, 'ok');
+    }catch(e){
+      failed++;
+      log(`❌ فشل إصلاح ${uid.slice(0,8)}...: ${e.message}`, 'err');
+    }
+  }
+
+  // step 6: create docs for members with no doc
+  for(const uid of missingDocUids){
+    const recoveredName = nameMap[uid] || null;
+    try{
+      await setDoc(doc(db,'users',uid), {
+        uid,
+        name: recoveredName || 'مستخدم',
+        displayName: recoveredName || 'مستخدم',
+        recoveredAt: new Date().toISOString()
+      }, { merge: true });
+      fixed++;
+      log(`✅ تم إنشاء document لـ: ${recoveredName || uid.slice(0,8)+'...'}`, 'ok');
+    }catch(e){
+      failed++;
+      log(`❌ فشل إنشاء doc لـ ${uid.slice(0,8)}...: ${e.message}`, 'err');
+    }
+  }
+
+  log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  log(`✅ تم إصلاح: ${fixed} مستخدم`, 'ok');
+  log(`⏭️ تجاهل: ${skipped}`, skipped ? 'warn' : 'ok');
+  log(`❌ فشل: ${failed}`, failed ? 'err' : 'ok');
+  log('🎉 خلص! ارجع افتح group-info وعمل refresh.', 'ok');
+  btn.disabled = false;
+  btn.textContent = 'تم ✓';
+};
+
+// auto-check auth
+onAuthStateChanged(auth, user => {
+  if(user){ log(`✅ مسجل دخول كـ: ${user.email} - اضغط ابدأ الإصلاح`, 'ok'); }
+  else { log('❌ مش مسجل دخول - افتح التطبيق واتأكد إنك مسجل دخول', 'err'); }
+});
+</script>
+</body>
+</html>
