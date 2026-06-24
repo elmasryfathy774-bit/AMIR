@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AChat - الدردشات</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --surface: #0E1526;
+      --surface-2: #151D2D;
+      --text: #EAF2FA;
+      --muted: #8B95A7;
+      --border-soft: #1F2A3D;
+      --cyan: #2FE0FF;
+      --cyan-deep: #0891B2;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--text);
+      font-family: 'Cairo', sans-serif;
+      overflow: hidden;
+    }
+
+    .app { display: flex; height: 100vh; }
+    
+    .sidebar {
+      width: 100%;
+      max-width: 560px;
+      background: var(--surface);
+      border-left: 1px solid var(--border-soft);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      padding: 16px 20px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logout-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: transparent;
+      border: 1.5px solid rgba(47,224,255,.2);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .logout-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .menu-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(47,224,255,.08);
+      border: 1.5px solid rgba(47,224,255,.2);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: .2s;
+    }
+
+    .menu-btn:hover { background: rgba(47,224,255,.15); border-color: rgba(47,224,255,.4); color: var(--cyan); }
+
+    /* القائمة المنسدلة العلوية */
+    .locked-menu {
+      position: fixed;
+      top: 70px;
+      right: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      min-width: 240px;
+      max-height: 400px;
+      overflow-y: auto;
+      box-shadow: 0 12px 40px rgba(0,0,0,.65);
+      z-index: 5000;
+      display: none;
+    }
+
+    .locked-menu.show { display: block; }
+
+    .locked-menu-header {
+      padding: 14px 16px;
+      background: rgba(47,224,255,.05);
+      border-bottom: 1px solid var(--border-soft);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .locked-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: .1s;
+      border-bottom: 1px solid rgba(255,255,255,.03);
+      font-size: 13px;
+    }
+
+    .locked-menu-item:hover { background: rgba(47,224,255,.08); }
+
+    .locked-menu-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-deep));
+      color: #06121C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .locked-menu-name { font-weight: 700; font-size: 13px; color: var(--text); }
+
+    .locked-menu-empty { padding: 20px 16px; text-align: center; color: var(--muted); font-size: 13px; }
+
+    .search-wrap { padding: 12px 16px; }
+    .search-wrap input { width: 100%; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--border-soft); color: var(--text); outline: none; }
+
+    .ctx-menu {
+      position: fixed;
+      z-index: 5100;
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      min-width: 160px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.5);
+      display: none;
+    }
+
+    .ctx-menu.show { display: block; }
+    .ctx-menu button { display: block; width: 100%; padding: 12px 16px; background: 0; border: 0; color: var(--text); font: inherit; text-align: right; cursor: pointer; transition: .12s; }
+    .ctx-menu button:hover { background: rgba(47,224,255,.1); }
+    .ctx-menu button + button { border-top: 1px solid var(--border-soft); }
+
+    .pin-modal { position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 5200; display: none; align-items: center; justify-content: center; }
+    .pin-modal.show { display: flex; }
+    .pin-box { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 16px; padding: 24px; max-width: 320px; text-align: center; width: 90%; }
+    .pin-box h3 { margin-bottom: 12px; font-size: 16px; }
+    .pin-box p { margin-bottom: 16px; font-size: 13px; color: var(--muted); }
+    .pin-inputs { display: flex; gap: 6px; justify-content: center; margin-bottom: 16px; direction: ltr; }
+    .pin-input { width: 40px; height: 40px; text-align: center; font-size: 16px; font-weight: 700; border: 1.5px solid var(--border-soft); border-radius: 8px; background: var(--surface-2); color: var(--text); outline: 0; }
+    .pin-input:focus { border-color: var(--cyan); }
+    .pin-actions { display: flex; gap: 8px; }
+    .pin-actions button { flex: 1; padding: 10px; border-radius: 8px; background: rgba(255,255,255,.05); border: 1px solid var(--border-soft); color: var(--text); font: inherit; cursor: pointer; }
+    .pin-actions .pin-save { background: linear-gradient(135deg, var(--cyan), var(--cyan-deep)); border: 0; color: #06121C; font-weight: 700; }
+    .pin-actions button:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* مظهر قائمة المقفولين داخل المودال */
+    .modal-locked-list { display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; margin-bottom: 16px; text-align: right; }
+
+    .locked-section { margin: 0 auto 16px; max-width: 560px; background: rgba(47,224,255,.05); border: 1px solid rgba(47,224,255,.15); border-radius: 12px; padding: 12px 16px; }
+    .locked-section.hidden { display: none; }
+    .locked-title { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+    .locked-list { display: flex; flex-direction: column; gap: 6px; }
+    .locked-item { display: flex; gap: 10px; align-items: center; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 10px; padding: 10px 12px; cursor: pointer; }
+    .locked-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--cyan), var(--cyan-deep)); color: #06121C; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
+    .locked-item .name { font-weight: 700; font-size: 13px; flex: 1; text-align: right; }
+    .locked-item .lock { color: var(--cyan); font-size: 12px; }
+
+    .user-card { padding: 12px 16px; border-bottom: 1px solid var(--border-soft); cursor: pointer; display: flex; gap: 12px; align-items: center; transition: .1s; }
+    .user-card:hover { background: rgba(47,224,255,.05); }
+    .user-card.active { background: rgba(47,224,255,.1); border-right: 3px solid var(--cyan); }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--cyan), var(--cyan-deep)); color: #06121C; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; }
+    .user-info { flex: 1; }
+    .name { font-weight: 700; font-size: 14px; }
+    .status { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+    .list-wrap { flex: 1; overflow-y: auto; }
+    .toast { position: fixed; bottom: 20px; left: 20px; background: var(--surface-2); border: 1px solid var(--cyan); color: var(--text); padding: 12px 16px; border-radius: 10px; font-size: 13px; z-index: 6000; opacity: 0; transition: opacity .3s; pointer-events: none; }
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="sidebar">
+      <div class="topbar">
+        <div class="user-chip">
+          <span id="userLabel">جاري التحميل...</span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <!-- زر الثلاث نقاط العلوي -->
+          <button id="lockedMenuBtn" class="menu-btn" title="الخيارات">⋮</button>
+          <button class="logout-btn" id="logoutBtn">تسجيل الخروج</button>
+        </div>
+      </div>
+
+      <!-- القائمة المنسدلة للثلاث نقاط -->
+      <div class="locked-menu" id="topMenuDropdown">
+        <div class="locked-menu-header">خيارات الدردشة</div>
+        <div class="locked-menu-item" id="topMenuDelete">🗑️ مسح الدردشة المحددة</div>
+        <div class="locked-menu-item" id="topMenuLockedList">🔒 الدردشات المقفولة</div>
+      </div>
+
+      <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="دوّري على اسم...">
+      </div>
+
+      <!-- قائمة كليك يمين / الضغط المطول -->
+      <div class="ctx-menu" id="ctxMenu">
+        <button id="delBtn">X مسح الدردشة</button>
+        <button id="lockBtn">■ قفل الدردشة</button>
+      </div>
+
+      <!-- نافذة إدخال رقم سري جديد للقفل -->
+      <div class="pin-modal" id="pinModal">
+        <div class="pin-box">
+          <h3>قفل الدردشة</h3>
+          <p>أدخلي رقم سري (6 أرقام)</p>
+          <div class="pin-inputs">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+          </div>
+          <div class="pin-actions">
+            <button id="pinCancel">إلغاء</button>
+            <button class="pin-save" id="pinSave" disabled>حفظ</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- نافذة التحقق لفتح الدردشة المقفولة -->
+      <div class="pin-modal" id="unlockModal">
+        <div class="pin-box">
+          <h3>فتح الدردشة</h3>
+          <p>أدخلي الرقم السري للتحقق</p>
+          <div class="pin-inputs" id="unlockInputs">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+            <input type="text" class="pin-input" maxlength="1" inputmode="numeric">
+          </div>
+          <div class="pin-actions">
+            <button id="unlockCancel">إلغاء</button>
+            <button class="pin-save" id="unlockVerify">تحقق</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- نافذة عرض قائمة الدردشات المقفولة -->
+      <div class="pin-modal" id="lockedChatsModal">
+        <div class="pin-box">
+          <h3>الدردشات المقفولة</h3>
+          <p>اضغطي على دردشة لفتحها برقمها السري</p>
+          <div class="modal-locked-list" id="lockedChatsModalList"></div>
+          <div id="lockedChatsModalEmpty" style="color: var(--muted); margin-bottom: 16px; font-size: 13px; display: none;">لا توجد دردشات مقفولة</div>
+          <div class="pin-actions">
+            <button id="lockedChatsModalClose" style="width: 100%;">إغلاق</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- القسم السفلي للدردشات المقفولة (تم الحفاظ عليه) -->
+      <div class="locked-section hidden" id="lockedSection">
+        <div class="locked-title">■ الدردشات المقفولة</div>
+        <div class="locked-list" id="lockedList"></div>
+      </div>
+
+      <div class="list-wrap" id="listWrap"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const KEY = 'achat-locked';
+    const ctxMenu = document.getElementById('ctxMenu');
+    const pinModal = document.getElementById('pinModal');
+    const unlockModal = document.getElementById('unlockModal');
+    const lockedSection = document.getElementById('lockedSection');
+    const lockedList = document.getElementById('lockedList');
+    
+    const pinInputs = document.querySelectorAll('#pinModal .pin-input');
+    const unlockInputs = document.querySelectorAll('#unlockInputs .pin-input');
+    const pinSave = document.getElementById('pinSave');
+    const pinCancel = document.getElementById('pinCancel');
+    const unlockVerify = document.getElementById('unlockVerify');
+    const unlockCancel = document.getElementById('unlockCancel');
+    
+    const listWrap = document.getElementById('listWrap');
+    
+    let targetCard = null; // للضغط المطول
+    let activeCard = null; // للدردشة المحددة بالنقرة العادية
+    let targetLockedId = null;
+    let locked = JSON.parse(localStorage.getItem(KEY) || '{}');
+    let longPressTimer = null;
+
+    // إظهار التنبيهات (Toast)
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // تحديث قائمة المقفولين السفلية
+    function renderLocked() {
+      if (!Object.keys(locked).length) {
+        lockedSection.classList.add('hidden');
+        return;
+      }
+      lockedSection.classList.remove('hidden');
+      lockedList.innerHTML = '';
+      Object.entries(locked).forEach(([id, {name, avatar}]) => {
+        const item = document.createElement('div');
+        item.className = 'locked-item';
+        item.innerHTML = `<div class="locked-avatar">${avatar}</div><div class="name">${name}</div><div class="lock">■</div>`;
+        item.onclick = () => openUnlockModal(id);
+        lockedList.appendChild(item);
+      });
+    }
+
+    // تجهيز خانات كتابة الرقم السري (قفل)
+    function setupPinInputs() {
+      pinInputs.forEach((inp, i) => {
+        inp.value = '';
+        inp.oninput = () => {
+          if (inp.value && inp.nextElementSibling) inp.nextElementSibling.focus();
+          pinSave.disabled = !Array.from(pinInputs).every(x => x.value);
+        };
+        inp.onkeydown = (e) => {
+          if (e.key === 'Backspace' && !inp.value && inp.previousElementSibling) inp.previousElementSibling.focus();
+        };
+      });
+      if (pinInputs[0]) pinInputs[0].focus();
+    }
+
+    // فتح نافذة إدخال الرقم السري للتحقق وفتح الدردشة
+    function openUnlockModal(id) {
+      targetLockedId = id;
+      unlockInputs.forEach((inp, i) => {
+        inp.value = '';
+        inp.oninput = () => {
+          if (inp.value && inp.nextElementSibling) inp.nextElementSibling.focus();
+        };
+        inp.onkeydown = (e) => {
+          if (e.key === 'Backspace' && !inp.value && inp.previousElementSibling) inp.previousElementSibling.focus();
+        };
+      });
+      unlockModal.classList.add('show');
+      if (unlockInputs[0]) unlockInputs[0].focus();
+    }
+
+    // إظهار وإخفاء قائمة كليك يمين
+    function showContextMenu(card) {
+      targetCard = card;
+      const rect = card.getBoundingClientRect();
+      ctxMenu.style.top = Math.min(rect.bottom + 8, window.innerHeight - 120) + 'px';
+      ctxMenu.style.left = Math.max(8, Math.min(rect.left, window.innerWidth - 180)) + 'px';
+      ctxMenu.classList.add('show');
+      document.addEventListener('click', closeContextMenu);
+    }
+
+    function closeContextMenu() {
+      ctxMenu.classList.remove('show');
+      document.removeEventListener('click', closeContextMenu);
+    }
+
+    // تفعيل اختيار الدردشات والضغط المطول
+    function setupLongPress() {
+      const cards = document.querySelectorAll('.user-card');
+      cards.forEach(card => {
+        card.oncontextmenu = (e) => {
+          e.preventDefault();
+          showContextMenu(card);
+        };
+        
+        card.onmousedown = (e) => {
+          longPressTimer = setTimeout(() => {
+            showContextMenu(card);
+          }, 500);
+        };
+
+        card.onmouseup = () => clearTimeout(longPressTimer);
+        card.onmouseleave = () => clearTimeout(longPressTimer);
+      });
+    }
+
+    // رصد تحديد أي دردشة بالنقرة العادية لتفعيل ميزة المسح من القائمة العلوية
+    listWrap.addEventListener('click', (e) => {
+      const card = e.target.closest('.user-card');
+      if (card) {
+        document.querySelectorAll('.user-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        activeCard = card;
+      }
+    });
+
+    // مسح الدردشة من قائمة كليك يمين
+    document.getElementById('delBtn').onclick = () => {
+      if (targetCard) {
+        closeContextMenu();
+        if (activeCard === targetCard) activeCard = null;
+        targetCard.remove();
+        showToast('تم مسح الدردشة');
+      }
+    };
+
+    // قفل الدردشة من قائمة كليك يمين
+    document.getElementById('lockBtn').onclick = () => {
+      closeContextMenu();
+      pinSave.disabled = true;
+      pinModal.classList.add('show');
+      setupPinInputs();
+    };
+
+    pinCancel.onclick = () => {
+      pinModal.classList.remove('show');
+      pinInputs.forEach(i => i.value = '');
+    };
+
+    // حفظ عملية القفل
+    pinSave.onclick = () => {
+      const pin = Array.from(pinInputs).map(i => i.value).join('');
+      if (pin.length !== 6) {
+        showToast('أدخلي 6 أرقام');
+        return;
+      }
+      const name = targetCard.querySelector('.name')?.textContent || 'دردشة';
+      const avatar = targetCard.querySelector('.avatar')?.textContent[0] || '؟';
+      const id = 'lock_' + Date.now();
+      
+      locked[id] = {name, avatar, pin};
+      localStorage.setItem(KEY, JSON.stringify(locked));
+      
+      renderLocked();
+      if (activeCard === targetCard) activeCard = null;
+      targetCard.remove();
+      pinModal.classList.remove('show');
+      showToast('تم قفل الدردشة');
+    };
+
+    unlockCancel.onclick = () => {
+      unlockModal.classList.remove('show');
+      unlockInputs.forEach(i => i.value = '');
+    };
+
+    // التحقق من كلمة السر وإعادة الدردشة المقفولة إلى القائمة النشطة
+    unlockVerify.onclick = () => {
+      if (!targetLockedId || !locked[targetLockedId]) return;
+      const entered = Array.from(unlockInputs).map(i => i.value).join('');
+      const correct = locked[targetLockedId].pin;
+      
+      if (entered.length !== 6) {
+        showToast('أدخلي 6 أرقام');
+        return;
+      }
+      
+      if (entered === correct) {
+        const restoredData = locked[targetLockedId];
+        
+        // إعادة إنشاء كرت الدردشة مجدداً في القائمة الرئيسية
+        const card = document.createElement('div');
+        card.className = 'user-card';
+        card.innerHTML = `
+          <div class="avatar">${restoredData.avatar}</div>
+          <div class="user-info">
+            <div class="name">${restoredData.name}</div>
+            <div class="status">أخر رسالة...</div>
+          </div>
+        `;
+        listWrap.appendChild(card);
+        
+        // مسحها من المحفوظات المقفولة
+        delete locked[targetLockedId];
+        localStorage.setItem(KEY, JSON.stringify(locked));
+        
+        renderLocked();
+        
+        showToast('تم فتح الدردشة بنجاح: ' + restoredData.name);
+        unlockModal.classList.remove('show');
+      } else {
+        showToast('الرقم السري خاطئ');
+        unlockInputs.forEach(i => i.value = '');
+        unlockInputs[0].focus();
+      }
+    };
+
+    // القائمة العلوية ذات الثلاث نقاط
+    const lockedMenuBtn = document.getElementById('lockedMenuBtn');
+    const topMenuDropdown = document.getElementById('topMenuDropdown');
+    const topMenuDelete = document.getElementById('topMenuDelete');
+    const topMenuLockedList = document.getElementById('topMenuLockedList');
+
+    // فتح وإغلاق القائمة العلوية
+    lockedMenuBtn.onclick = (e) => {
+      e.stopPropagation();
+      topMenuDropdown.classList.toggle('show');
+    };
+
+    document.onclick = (e) => {
+      if (!topMenuDropdown.contains(e.target) && e.target !== lockedMenuBtn) {
+        topMenuDropdown.classList.remove('show');
+      }
+    };
+
+    // خيار حذف الدردشة النشطة/المحددة من القائمة العلوية
+    topMenuDelete.onclick = () => {
+      topMenuDropdown.classList.remove('show');
+      if (activeCard) {
+        activeCard.remove();
+        activeCard = null;
+        showToast('تم مسح الدردشة المحددة بنجاح');
+      } else {
+        showToast('الرجاء الضغط على الدردشة لتحديدها أولاً لمسحها');
+      }
+    };
+
+    // خيار عرض الدردشات المقفولة من القائمة العلوية
+    const lockedChatsModal = document.getElementById('lockedChatsModal');
+    const lockedChatsModalList = document.getElementById('lockedChatsModalList');
+    const lockedChatsModalEmpty = document.getElementById('lockedChatsModalEmpty');
+    const lockedChatsModalClose = document.getElementById('lockedChatsModalClose');
+
+    topMenuLockedList.onclick = () => {
+      topMenuDropdown.classList.remove('show');
+      renderLockedChatsModal();
+      lockedChatsModal.classList.add('show');
+    };
+
+    lockedChatsModalClose.onclick = () => {
+      lockedChatsModal.classList.remove('show');
+    };
+
+    // عرض الدردشات المقفولة داخل المودال مع ميزة فك القفل بالضغط عليها
+    function renderLockedChatsModal() {
+      lockedChatsModalList.innerHTML = '';
+      const keys = Object.keys(locked);
+      
+      if (keys.length === 0) {
+        lockedChatsModalEmpty.style.display = 'block';
+      } else {
+        lockedChatsModalEmpty.style.display = 'none';
+        Object.entries(locked).forEach(([id, {name, avatar}]) => {
+          const item = document.createElement('div');
+          item.className = 'locked-item';
+          item.innerHTML = `
+            <div class="locked-avatar">${avatar}</div>
+            <div class="name">${name}</div>
+            <div class="lock">🔒</div>
+          `;
+          item.onclick = () => {
+            lockedChatsModal.classList.remove('show');
+            openUnlockModal(id);
+          };
+          lockedChatsModalList.appendChild(item);
+        });
+      }
+    }
+
+    // تشغيل أول مرة
+    renderLocked();
+    setupLongPress();
+    
+    // مراقبة القائمة لأي تغييرات لتفعيل الضغط المطول تلقائياً
+    const obs = new MutationObserver(setupLongPress);
+    obs.observe(listWrap, {childList: true});
+
+    // جلب مستخدمين تجريبيين للتوضيح
+    [
+      {name: 'Farha', avatar: 'F'},
+      {name: 'Coding', avatar: 'C'},
+      {name: 'Jana Hossam', avatar: 'J'},
+      {name: 'يسملح', avatar: 'ي'},
+      {name: 'Gana Mammoth', avatar: 'G'}
+    ].forEach(user => {
+      const card = document.createElement('div');
+      card.className = 'user-card';
+      card.innerHTML = `
+        <div class="avatar">${user.avatar}</div>
+        <div class="user-info">
+          <div class="name">${user.name}</div>
+          <div class="status">أخر رسالة...</div>
+        </div>
+      `;
+      listWrap.appendChild(card);
+    });
+    
+    // إزالة كلمة "جاري التحميل..." ووضع اسم تجريبي
+    document.getElementById('userLabel').textContent = 'Farha (نشط)';
+  </script>
+</body>
+    </html>
