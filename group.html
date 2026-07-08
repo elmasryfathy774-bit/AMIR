@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AChat | مجموعة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#070B14;
+  --surface:#0E1526;
+  --surface-2:#131B2F;
+  --border-soft:rgba(255,255,255,.08);
+  --cyan:#2FE0FF;
+  --cyan-deep:#1A4FD1;
+  --text:#EAF2FA;
+  --muted:#7C8AA3;
+  --bubble-out:linear-gradient(135deg,#1A4FD1,#1565C0);
+  --bubble-in:#131B2F;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Cairo',sans-serif;
+  color:var(--text);
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+  background:
+    radial-gradient(circle at 18% 12%,rgba(47,224,255,.08),transparent 38%),
+    radial-gradient(circle at 88% 85%,rgba(26,79,209,.12),transparent 42%),
+    var(--void);
+  overflow:hidden;
+}
+
+/* ===== TOPBAR ===== */
+.topbar{
+  background:rgba(14,21,38,.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border-soft);
+  padding:10px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+  z-index:10;
+}
+.back-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:transparent;
+  border:none;
+  color:var(--cyan);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  flex-shrink:0;
+}
+.back-btn:hover{background:rgba(47,224,255,.1);}
+.group-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:16px;color:#06121C;
+  overflow:hidden;flex-shrink:0;cursor:pointer;
+}
+.group-avatar img{width:100%;height:100%;object-fit:cover;}
+.group-info{flex:1;min-width:0;cursor:pointer;}
+.group-info h2{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.group-info p{font-size:12px;color:var(--muted);}
+.topbar-actions{display:flex;gap:4px;flex-shrink:0;}
+.icon-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:transparent;border:none;
+  color:var(--muted);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.icon-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
+
+/* ===== MESSAGES AREA ===== */
+.messages-area{
+  flex:1;
+  overflow-y:auto;
+  padding:16px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  scroll-behavior:smooth;
+}
+.messages-area::-webkit-scrollbar{width:4px;}
+.messages-area::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px;}
+
+/* date divider */
+.date-divider{
+  text-align:center;
+  margin:10px 0;
+}
+.date-divider span{
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border-soft);
+  border-radius:20px;
+  padding:3px 12px;
+  font-size:11.5px;
+  color:var(--muted);
+}
+
+/* system message */
+.sys-msg{
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+  margin:6px 0;
+  background:rgba(255,255,255,.04);
+  border-radius:20px;
+  padding:4px 14px;
+  width:fit-content;
+  align-self:center;
+}
+
+/* bubbles */
+.msg-row{
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  max-width:80%;
+}
+.msg-row.out{
+  align-self:flex-start;
+  flex-direction:row-reverse;
+}
+.msg-row.in{
+  align-self:flex-end;
+}
+.msg-row .sender-avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));
+  color:#06121C;font-weight:800;font-size:11px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;flex-shrink:0;
+  margin-bottom:2px;
+}
+.msg-row .sender-avatar img{width:100%;height:100%;object-fit:cover;}
+.bubble{
+  padding:8px 12px 6px;
+  border-radius:18px;
+  max-width:100%;
+  word-break:break-word;
+  position:relative;
+}
+.msg-row.out .bubble{
+  background:var(--bubble-out);
+  border-bottom-left-radius:5px;
+}
+.msg-row.in .bubble{
+  background:var(--bubble-in);
+  border:1px solid var(--border-soft);
+  border-bottom-right-radius:5px;
+}
+.bubble .sender-name{
+  font-size:11.5px;
+  font-weight:700;
+  color:var(--cyan);
+  margin-bottom:2px;
+}
+.msg-row.out .bubble .sender-name{display:none;}
+.bubble .msg-text{font-size:14px;line-height:1.5;}
+.bubble .msg-image{
+  max-width:220px;width:100%;
+  border-radius:12px;
+  margin-bottom:4px;
+  cursor:pointer;
+  display:block;
+}
+.bubble .msg-meta{
+  display:flex;align-items:center;gap:4px;
+  justify-content:flex-end;
+  margin-top:3px;
+}
+.bubble .msg-time{font-size:11px;color:rgba(234,242,250,.45);}
+.msg-row.out .bubble .msg-time{color:rgba(255,255,255,.55);}
+.tick{font-size:12px;color:rgba(255,255,255,.6);}
+.tick.read{color:var(--cyan);}
+
+/* ===== MESSAGE CONTEXT MENU ===== */
+.msg-context-backdrop{
+  position:fixed;inset:0;z-index:5000;
+  display:none;
+}
+.msg-context-backdrop.show{display:block;}
+.msg-row{position:relative;}
+.msg-row.pressed .bubble{filter:brightness(1.18);}
+.msg-context-menu{
+  position:fixed;
+  z-index:5100;
+  background:#0E1526;
+  border:1px solid rgba(47,224,255,.2);
+  border-radius:16px;
+  overflow:hidden;
+  min-width:185px;
+  box-shadow:0 12px 40px rgba(0,0,0,.65),0 0 0 1px rgba(47,224,255,.06);
+  display:none;
+}
+.msg-context-menu.show{display:block;animation:popupIn .14s ease;}
+@keyframes popupIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.msg-context-menu button{
+  display:flex;
+  align-items:center;
+  width:100%;
+  padding:13px 18px;
+  background:transparent;
+  border:none;
+  color:#EAF2FA;
+  font-size:14px;
+  font-family:'Cairo',sans-serif;
+  font-weight:600;
+  text-align:right;
+  cursor:pointer;
+  gap:13px;
+  transition:background .12s;
+  direction:rtl;
+  white-space:nowrap;
+}
+.msg-context-menu button:hover,
+.msg-context-menu button:active{background:rgba(47,224,255,.1);}
+.msg-context-menu button.danger{color:#FF5D75;}
+.msg-context-menu button.danger svg{stroke:#FF5D75 !important;}
+.msg-context-menu button svg{stroke:var(--cyan);width:17px;height:17px;flex-shrink:0;}
+.msg-context-menu button+button{border-top:1px solid rgba(47,224,255,.07);}
+
+/* ===== INPUT BAR ===== */
+.input-bar{
+  background:rgba(14,21,38,.95);
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--border-soft);
+  padding:10px 12px;
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  flex-shrink:0;
+}
+.attach-btn,.send-btn,.emoji-btn,.mic-btn{
+  width:42px;height:42px;border-radius:50%;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  font-size:18px;
+}
+.mic-btn{background:transparent;color:var(--muted);}
+.mic-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
+.mic-btn.is-recording{background:#FF5D75;color:#fff;}
+
+/* recording bar */
+.recording-bar{
+  display:none;flex:1;align-items:center;gap:8px;
+  padding:8px 14px;
+  border:1.5px solid rgba(255,93,117,.4);
+  border-radius:22px;
+  background:rgba(255,93,117,.07);
+}
+.recording-bar.show{display:flex;}
+.rec-dot{width:8px;height:8px;border-radius:50%;background:#FF5D75;flex-shrink:0;animation:recBlink 1s infinite;}
+@keyframes recBlink{0%,100%{opacity:1}50%{opacity:.2}}
+.rec-time{font-size:13px;font-weight:700;color:#FF5D75;font-variant-numeric:tabular-nums;flex-shrink:0;}
+.rec-cancel{background:none;border:none;color:var(--muted);font-size:12.5px;font-weight:700;cursor:pointer;padding:3px 6px;flex-shrink:0;}
+.rec-hint{flex:1;font-size:12px;color:var(--muted);}
+
+/* voice bubble */
+.voice-bubble-wrap{
+  display:flex;align-items:center;gap:6px;
+  width:160px;padding:2px 0;
+}
+.voice-play-btn{
+  width:28px;height:28px;border-radius:50%;border:none;flex-shrink:0;
+  background:rgba(255,255,255,.2);color:inherit;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.voice-play-btn svg{width:12px;height:12px;display:block;}
+.msg-row.in .voice-play-btn{background:rgba(47,224,255,.2);color:var(--cyan);}
+.voice-wave{flex:1;height:22px;display:flex;align-items:center;gap:2px;cursor:pointer;overflow:hidden;}
+.voice-wave .bar{flex:1;min-width:2px;max-width:3px;border-radius:3px;background:rgba(255,255,255,.35);}
+.msg-row.in .voice-wave .bar{background:rgba(100,116,139,.5);}
+.voice-wave .bar.played{background:rgba(255,255,255,.9);}
+.msg-row.in .voice-wave .bar.played{background:var(--cyan);}
+.voice-dur{font-size:10px;opacity:.8;flex-shrink:0;font-variant-numeric:tabular-nums;min-width:28px;}
+.emoji-btn{background:transparent;color:var(--muted);}
+.emoji-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
+.attach-btn{background:transparent;color:var(--muted);}
+.attach-btn:hover{background:rgba(255,255,255,.06);color:var(--text);}
+.send-btn{
+  background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));
+  color:#06121C;
+}
+.send-btn:hover{filter:brightness(1.1);}
+.send-btn:disabled{opacity:.4;cursor:not-allowed;}
+.msg-input-wrap{
+  flex:1;
+  background:var(--surface-2);
+  border:1px solid var(--border-soft);
+  border-radius:22px;
+  padding:10px 14px;
+  min-height:42px;
+  max-height:120px;
+  overflow-y:auto;
+  font-family:'Cairo',sans-serif;
+  font-size:14px;
+  color:var(--text);
+  outline:none;
+  line-height:1.5;
+  white-space:pre-wrap;
+}
+.msg-input-wrap:empty::before{
+  content:attr(data-placeholder);
+  color:var(--muted);
+  pointer-events:none;
+}
+.msg-input-wrap::-webkit-scrollbar{width:3px;}
+
+/* ===== readonly notice ===== */
+.readonly-bar{
+  text-align:center;
+  padding:10px;
+  font-size:13px;
+  color:var(--muted);
+  background:rgba(14,21,38,.9);
+  border-top:1px solid var(--border-soft);
+  flex-shrink:0;
+}
+
+/* ===== GROUP INFO MODAL ===== */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(5,8,16,.75);
+  backdrop-filter:blur(4px);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  z-index:100;
+}
+.modal-overlay.show{display:flex;}
+.info-sheet{
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-radius:26px 26px 0 0;
+  width:100%;
+  max-width:560px;
+  max-height:85vh;
+  overflow-y:auto;
+  padding:0 0 30px;
+}
+.info-sheet::-webkit-scrollbar{width:3px;}
+.info-cover{
+  width:100%;
+  height:160px;
+  background:linear-gradient(160deg,#0B1020,#0E1B2E);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  border-radius:26px 26px 0 0;
+  overflow:hidden;
+}
+.info-cover-avatar{
+  width:90px;height:90px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));
+  color:#06121C;font-weight:800;font-size:32px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  border:3px solid rgba(47,224,255,.3);
+}
+.info-cover-avatar img{width:100%;height:100%;object-fit:cover;}
+.info-close{
+  position:absolute;top:14px;left:14px;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(0,0,0,.4);border:none;
+  color:var(--text);font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.info-body{padding:20px 20px 0;}
+.info-name{font-size:20px;font-weight:900;text-align:center;margin-bottom:4px;}
+.info-sub{font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;}
+.info-section-title{font-size:12px;color:var(--cyan);font-weight:700;margin-bottom:10px;letter-spacing:.5px;}
+.member-row{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid var(--border-soft);
+}
+.member-row:last-child{border-bottom:none;}
+.member-av{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));
+  color:#06121C;font-weight:800;font-size:15px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;flex-shrink:0;
+}
+.member-av img{width:100%;height:100%;object-fit:cover;}
+.member-label{flex:1;}
+.member-label .mn{font-size:14px;font-weight:700;}
+.member-label .ms{font-size:12px;color:var(--muted);}
+.admin-badge{
+  font-size:11px;font-weight:700;
+  background:rgba(47,224,255,.12);
+  color:var(--cyan);
+  border:1px solid rgba(47,224,255,.25);
+  border-radius:20px;
+  padding:2px 8px;
+}
+.remove-member-btn{
+  background:rgba(255,93,117,.12);
+  border:1px solid rgba(255,93,117,.3);
+  color:#FF5D75;
+  border-radius:50%;
+  width:28px;height:28px;
+  font-size:13px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.remove-member-btn:hover{background:rgba(255,93,117,.25);}
+
+/* ===== image lightbox ===== */
+.lightbox{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:200;
+}
+.lightbox.show{display:flex;}
+.lightbox img{max-width:95vw;max-height:90vh;border-radius:10px;}
+.lightbox-close{
+  position:absolute;top:18px;left:18px;
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.12);border:none;
+  color:#fff;font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* toast */
+.toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:rgba(20,30,55,.97);
+  border:1px solid var(--border-soft);
+  color:var(--text);border-radius:24px;
+  padding:10px 22px;font-size:13.5px;font-weight:600;
+  opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;z-index:300;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* loading */
+.loading-msgs{
+  display:flex;flex-direction:column;align-items:center;
+  gap:10px;padding:40px;color:var(--muted);font-size:14px;
+}
+.spinner{
+  width:28px;height:28px;border-radius:50%;
+  border:3px solid rgba(47,224,255,.2);
+  border-top-color:var(--cyan);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ===== FORWARD SHEET ===== */
+.forward-overlay{
+  position:fixed;inset:0;z-index:9500;
+  background:rgba(5,8,16,.8);backdrop-filter:blur(5px);
+  display:none;align-items:flex-end;justify-content:center;
+}
+.forward-overlay.show{display:flex;}
+.forward-sheet{
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-radius:24px 24px 0 0;
+  width:100%;max-width:500px;
+  max-height:75vh;
+  display:flex;flex-direction:column;
+  padding:0 0 28px;
+  box-shadow:0 -20px 60px rgba(0,0,0,.5);
+  animation:sheetUp .22s ease;
+}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.forward-handle{
+  width:36px;height:4px;border-radius:2px;
+  background:rgba(255,255,255,.18);
+  margin:12px auto 0;flex-shrink:0;
+}
+.forward-header{
+  padding:14px 20px 12px;
+  border-bottom:1px solid var(--border-soft);
+  flex-shrink:0;
+}
+.forward-header h3{font-size:15px;font-weight:800;}
+.forward-header p{font-size:12.5px;color:var(--muted);margin-top:2px;}
+.forward-preview{
+  margin:0 20px 0;
+  padding:10px 14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border-soft);
+  border-radius:12px;
+  font-size:13px;color:var(--muted);
+  max-height:48px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;
+  margin-top:14px;flex-shrink:0;
+}
+.forward-list{
+  overflow-y:auto;flex:1;padding:10px 0;
+}
+.forward-list::-webkit-scrollbar{width:3px;}
+.forward-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);}
+.forward-item{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 20px;cursor:pointer;
+  transition:background .15s;
+  position:relative;
+}
+.forward-item:hover{background:rgba(47,224,255,.06);}
+.forward-item-av{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));
+  color:#06121C;font-weight:800;font-size:17px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;flex-shrink:0;
+}
+.forward-item-av img{width:100%;height:100%;object-fit:cover;}
+.forward-item-info{flex:1;min-width:0;}
+.forward-item-name{font-size:14px;font-weight:700;}
+.forward-item-sub{font-size:12px;color:var(--muted);}
+.forward-check{
+  width:24px;height:24px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:all .15s;
+}
+.forward-item.selected .forward-check{
+  background:var(--cyan);
+  border-color:var(--cyan);
+}
+.forward-actions{
+  padding:14px 20px 0;
+  display:flex;gap:10px;flex-shrink:0;
+}
+.forward-cancel-btn{
+  flex:1;padding:12px;border-radius:13px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--border-soft);
+  color:var(--muted);font-family:inherit;
+  font-size:14px;font-weight:700;cursor:pointer;
+}
+.forward-cancel-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.forward-send-btn{
+  flex:2;padding:12px;border-radius:13px;
+  background:linear-gradient(135deg,var(--cyan),var(--cyan-deep));
+  border:none;color:#06121C;font-family:inherit;
+  font-size:14px;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:filter .15s;
+}
+.forward-send-btn:hover{filter:brightness(1.1);}
+.forward-send-btn:disabled{opacity:.4;cursor:not-allowed;}
+.forward-count{
+  background:rgba(6,18,28,.4);
+  border-radius:999px;padding:2px 8px;
+  font-size:13px;font-weight:800;
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <button class="back-btn" id="backBtn" title="رجوع">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="group-avatar" id="topAvatar"></div>
+  <div class="group-info" id="topInfo">
+    <h2 id="topName">مجموعة</h2>
+    <p id="topMembers">جاري التحميل...</p>
+  </div>
+  <div class="topbar-actions">
+    <button class="icon-btn" id="infoBtn" title="معلومات المجموعة">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- MESSAGES -->
+<div class="messages-area" id="messagesArea">
+  <div class="loading-msgs" id="loadingMsgs">
+    <div class="spinner"></div>
+    <span>جاري تحميل الرسائل...</span>
+  </div>
+</div>
+
+<!-- INPUT BAR -->
+<div class="input-bar" id="inputBar">
+  <button class="attach-btn" id="attachBtn" title="إرفاق صورة">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+  </button>
+  <input type="file" id="imageInput" accept="image/*" hidden>
+  <div class="recording-bar" id="recordingBar">
+    <span class="rec-dot"></span>
+    <span class="rec-time" id="recTime">00:00</span>
+    <span class="rec-hint">جاري التسجيل...</span>
+    <button class="rec-cancel" id="recCancelBtn">إلغاء</button>
+  </div>
+  <div class="msg-input-wrap" id="msgInput" contenteditable="true" data-placeholder="اكتب رسالة..."></div>
+  <button class="mic-btn" id="micBtn" title="رسالة صوتية">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-mic"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-stop" style="display:none"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+  </button>
+  <button class="send-btn" id="sendBtn" title="إرسال">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+  </button>
+</div>
+
+<!-- readonly bar (hidden by default) -->
+<div class="readonly-bar" id="readonlyBar" style="display:none;">🔒 الكتابة متاحة للأدمن فقط</div>
+
+<!-- GROUP INFO MODAL -->
+<div class="modal-overlay" id="infoModal">
+  <div class="info-sheet">
+    <div class="info-cover">
+      <button class="info-close" id="infoClose">✕</button>
+      <div class="info-cover-avatar" id="infoAvatar"></div>
+    </div>
+    <div class="info-body">
+      <div class="info-name" id="infoName"></div>
+      <div class="info-sub" id="infoSub"></div>
+      <div class="info-section-title">الأعضاء</div>
+      <div id="membersList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- IMAGE LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+window.addEventListener('error', function(e){
+  var box = document.getElementById('loadingMsgs');
+  if(box){
+    box.style.display = 'flex';
+    box.style.flexDirection = 'column';
+    box.innerHTML = '<span style="color:#ff6b6b;padding:10px;text-align:center;direction:ltr;font-size:12px;word-break:break-all;">خطأ:<br>' + (e.message||'') + '<br>' + (e.filename||'') + ':' + (e.lineno||'') + '</span>';
+  }
+});
+</script>
+<script type="module">
+import { auth, db } from './firebase-config.js';
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+import {
+  doc, getDoc, setDoc, deleteDoc, collection, addDoc, onSnapshot,
+  query, orderBy, serverTimestamp, updateDoc, getDocs, arrayRemove
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+import {
+  getStorage, ref, uploadString, getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
+
+// ===== URL params =====
+const params = new URLSearchParams(location.search);
+const groupId = params.get('groupId');
+const groupNameParam = decodeURIComponent(params.get('name') || 'مجموعة');
+
+if(!groupId){
+  location.href = 'chat.html';
+  throw new Error('لا يوجد groupId - جاري التحويل لصفحة الشات');
+}
+
+// ===== elements =====
+const topAvatar    = document.getElementById('topAvatar');
+const topName      = document.getElementById('topName');
+const topMembers   = document.getElementById('topMembers');
+const messagesArea = document.getElementById('messagesArea');
+const loadingMsgs  = document.getElementById('loadingMsgs');
+const inputBar     = document.getElementById('inputBar');
+const readonlyBar  = document.getElementById('readonlyBar');
+const msgInput     = document.getElementById('msgInput');
+const sendBtn      = document.getElementById('sendBtn');
+const attachBtn    = document.getElementById('attachBtn');
+const imageInput   = document.getElementById('imageInput');
+const infoBtn      = document.getElementById('infoBtn');
+const infoModal    = document.getElementById('infoModal');
+const infoClose    = document.getElementById('infoClose');
+const infoAvatar   = document.getElementById('infoAvatar');
+const infoName     = document.getElementById('infoName');
+const infoSub      = document.getElementById('infoSub');
+const membersList  = document.getElementById('membersList');
+const backBtn      = document.getElementById('backBtn');
+const lightbox     = document.getElementById('lightbox');
+const lightboxImg  = document.getElementById('lightboxImg');
+const lightboxClose= document.getElementById('lightboxClose');
+const toastEl      = document.getElementById('toast');
+
+let currentUser = null;
+let groupData   = null;
+let membersData = {};
+let unsubMsgs   = null;
+let toastTimer  = null;
+
+// ===== toast =====
+function showToast(msg){
+  clearTimeout(toastTimer);
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 3000);
+}
+
+// ===== back =====
+backBtn.addEventListener('click', ()=>{ location.href = 'chat.html'; });
+
+// ===== info modal =====
+infoBtn.addEventListener('click', openInfo);
+document.getElementById('topInfo').addEventListener('click', openInfo);
+document.getElementById('topAvatar').addEventListener('click', openInfo);
+infoClose.addEventListener('click', ()=>infoModal.classList.remove('show'));
+infoModal.addEventListener('click', e=>{ if(e.target===infoModal) infoModal.classList.remove('show'); });
+
+function openInfo(){
+  if(!groupData) return;
+  location.href = `group-info.html?groupId=${groupId}&name=${encodeURIComponent(groupData.name||groupNameParam)}`;
+}
+
+function renderInfo(){
+  // avatar
+  infoAvatar.innerHTML = groupData.photoURL
+    ? `<img src="${groupData.photoURL}" alt="">`
+    : (groupData.name||'م').charAt(0).toUpperCase();
+  infoName.textContent = groupData.name || groupNameParam;
+  infoSub.textContent  = `${groupData.members?.length || 0} أعضاء • ${groupData.allowWrite===false?'الكتابة للأدمن فقط':'الكل يقدر يكتب'}`;
+  // members
+  membersList.innerHTML = '';
+  (groupData.members||[]).forEach(uid => {
+    const u = membersData[uid];
+    const name = u?.displayName || u?.name || u?.fullName || u?.username || u?.email || 'مستخدم';
+    const isAdmin = uid === groupData.adminUid;
+    const row = document.createElement('div');
+    row.className = 'member-row';
+    const isMe = uid === currentUser?.uid;
+    const iAmAdmin = groupData.adminUid === currentUser?.uid;
+    const canRemove = iAmAdmin && !isMe && !isAdmin;
+    row.innerHTML = `
+      <div class="member-av">${u?.photoURL?`<img src="${u.photoURL}" alt="">`:(name.charAt(0).toUpperCase())}</div>
+      <div class="member-label">
+        <div class="mn">${name}${isMe?' (أنت)':''}</div>
+        <div class="ms">${u?.isOnline?'🟢 متصل':'⚪ غير متصل'}</div>
+      </div>
+      ${isAdmin?'<span class="admin-badge">أدمن</span>':''}
+      ${canRemove?`<button class="remove-member-btn" data-uid="${uid}" title="إزالة من المجموعة">✕</button>`:''}
+    `;
+    membersList.appendChild(row);
+  });
+}
+
+// ===== lightbox =====
+lightboxClose.addEventListener('click', ()=>lightbox.classList.remove('show'));
+lightbox.addEventListener('click', e=>{ if(e.target===lightbox) lightbox.classList.remove('show'); });
+
+function openLightbox(src){
+  lightboxImg.src = src;
+  lightbox.classList.add('show');
+}
+
+// ===== render avatar helper =====
+function renderAvatar(el, name, photoURL){
+  el.innerHTML = photoURL ? `<img src="${photoURL}" alt="${name}">` : name.charAt(0).toUpperCase();
+}
+
+// ===== format time =====
+function fmtTime(ts){
+  if(!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+}
+function fmtDate(ts){
+  if(!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  const today = new Date();
+  const yesterday = new Date(today); yesterday.setDate(today.getDate()-1);
+  if(d.toDateString()===today.toDateString()) return 'اليوم';
+  if(d.toDateString()===yesterday.toDateString()) return 'الأمس';
+  return d.toLocaleDateString('ar-EG',{day:'numeric',month:'long',year:'numeric'});
+}
+
+// ===== render messages =====
+let lastDateLabel = '';
+function renderMessages(msgs){
+  messagesArea.innerHTML = '';
+  lastDateLabel = '';
+  const isAtBottom = messagesArea.scrollHeight - messagesArea.scrollTop - messagesArea.clientHeight < 80;
+
+  msgs.forEach(m => {
+    // date divider
+    const dateLabel = fmtDate(m.createdAt);
+    if(dateLabel && dateLabel !== lastDateLabel){
+      lastDateLabel = dateLabel;
+      const div = document.createElement('div');
+      div.className = 'date-divider';
+      div.innerHTML = `<span>${dateLabel}</span>`;
+      messagesArea.appendChild(div);
+    }
+
+    // system messages
+    if(m.type === 'system'){
+      const s = document.createElement('div');
+      s.className = 'sys-msg';
+      s.textContent = m.text;
+      messagesArea.appendChild(s);
+      return;
+    }
+
+    const isOut = m.senderId === currentUser?.uid;
+    const sender = membersData[m.senderId] || {};
+    const senderName = sender.displayName || sender.name || sender.fullName || sender.username || sender.email || 'مستخدم';
+
+    const row = document.createElement('div');
+    row.className = `msg-row ${isOut?'out':'in'}`;
+
+    // avatar (only for incoming)
+    if(!isOut){
+      const av = document.createElement('div');
+      av.className = 'sender-avatar';
+      av.innerHTML = sender.photoURL ? `<img src="${sender.photoURL}" alt="">` : senderName.charAt(0).toUpperCase();
+      row.appendChild(av);
+    }
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+
+    let inner = '';
+    if(!isOut) inner += `<div class="sender-name">${senderName}</div>`;
+
+    if(m.type==='voice'){
+      bubble.appendChild(document.createRange().createContextualFragment(inner));
+      bubble.appendChild(buildVoiceBubble(m, isOut));
+      const meta = document.createElement('div');
+      meta.className='msg-meta';
+      meta.innerHTML=`<span class="msg-time">${fmtTime(m.createdAt)}</span>${isOut?`<span class="tick ${m.readBy&&m.readBy.length>1?'read':''}">✓✓</span>`:''}`;
+      bubble.appendChild(meta);
+    } else {
+      if(m.imageURL) inner += `<img class="msg-image" src="${m.imageURL}" alt="صورة">`;
+      if(m.text) inner += `<div class="msg-text">${m.text.replace(/\n/g,'<br>')}</div>`;
+      inner += `<div class="msg-meta"><span class="msg-time">${fmtTime(m.createdAt)}</span>${isOut?`<span class="tick ${m.readBy&&m.readBy.length>1?'read':''}">✓✓</span>`:''}</div>`;
+      bubble.innerHTML = inner;
+      bubble.querySelectorAll('.msg-image').forEach(img=>{
+        img.addEventListener('click', ()=>openLightbox(img.src));
+      });
+    }
+
+    // long press / right click to show context menu
+    let pressTimer = null;
+    const msgId = m.id || null;
+    const msgText = m.text || '';
+    const isMine = isOut;
+    let lastTouchEvt = null;
+
+    const showMenu = (e) => openCtxMenu(e || lastTouchEvt || {clientX:window.innerWidth/2, clientY:window.innerHeight/2}, msgText, msgId, isMine);
+
+    bubble.addEventListener('contextmenu', e=>{ e.preventDefault(); showMenu(e); });
+    bubble.addEventListener('touchstart', e=>{
+      lastTouchEvt = e;
+      pressTimer = setTimeout(()=>{ showMenu(e); }, 500);
+    }, { passive:true });
+    bubble.addEventListener('touchend', ()=>{ clearTimeout(pressTimer); });
+    bubble.addEventListener('touchmove', ()=>{ clearTimeout(pressTimer); });
+
+    row.appendChild(bubble);
+    messagesArea.appendChild(row);
+  });
+
+  // scroll to bottom
+  messagesArea.scrollTop = messagesArea.scrollHeight;
+}
+
+// ===== send message =====
+async function sendMessage(text, imageURL){
+  if(!currentUser || !groupId) return;
+  try{
+    await addDoc(collection(db,'groups',groupId,'messages'),{
+      text: text||'',
+      imageURL: imageURL||null,
+      senderId: currentUser.uid,
+      senderName: (membersData[currentUser.uid]?.displayName || membersData[currentUser.uid]?.name || membersData[currentUser.uid]?.fullName || membersData[currentUser.uid]?.username || currentUser.displayName || currentUser.email),
+      createdAt: serverTimestamp(),
+      readBy: [currentUser.uid]
+    });
+    // update lastMessage on group doc
+    await updateDoc(doc(db,'groups',groupId),{
+      lastMessage: imageURL ? '📷 صورة' : text,
+      updatedAt: serverTimestamp()
+    });
+  } catch(e){
+    showToast('تعذر إرسال الرسالة');
+  }
+}
+
+// send button
+sendBtn.addEventListener('click', async ()=>{
+  const text = msgInput.innerText.trim();
+  if(!text) return;
+  msgInput.innerText = '';
+  await sendMessage(text, null);
+});
+
+// enter key
+msgInput.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendBtn.click();
+  }
+});
+
+// attach image
+attachBtn.addEventListener('click', ()=>imageInput.click());
+imageInput.addEventListener('change', async ()=>{
+  const file = imageInput.files[0];
+  imageInput.value='';
+  if(!file) return;
+  showToast('جاري رفع الصورة...');
+  try{
+    const reader = new FileReader();
+    reader.onload = async ()=>{
+      // compress
+      const img = new Image();
+      img.onload = async ()=>{
+        const max = 900;
+        let w=img.width, h=img.height;
+        if(w>max||h>max){ if(w>h){h=Math.round(h*max/w);w=max;}else{w=Math.round(w*max/h);h=max;} }
+        const canvas=document.createElement('canvas');
+        canvas.width=w; canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        const dataUrl = canvas.toDataURL('image/jpeg',0.8);
+        try{
+          const storage = getStorage();
+          const storageRef = ref(storage,`groups/${groupId}/${Date.now()}.jpg`);
+          await uploadString(storageRef, dataUrl, 'data_url');
+          const url = await getDownloadURL(storageRef);
+          await sendMessage('', url);
+        } catch(e){
+          // fallback: send base64 directly (works if storage not configured)
+          await sendMessage('', dataUrl);
+        }
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  } catch(e){ showToast('تعذر إرسال الصورة'); }
+});
+
+// ===== MAIN INIT =====
+onAuthStateChanged(auth, async user=>{
+  if(!user){ location.href='index.html'; return; }
+  currentUser = user;
+
+  // auto-fix: ensure current user has a Firestore doc with their name
+  try{
+    const myRef = doc(db,'users',user.uid);
+    const mySnap = await getDoc(myRef);
+    const existingData = mySnap.exists() ? mySnap.data() : {};
+    const hasName = existingData.name || existingData.displayName;
+    if(!mySnap.exists() || !hasName){
+      const myName = user.displayName || existingData.name || existingData.displayName;
+      if(myName){
+        await setDoc(myRef, {
+          uid: user.uid,
+          displayName: myName,
+          name: myName,
+          email: user.email
+        }, { merge: true });
+        if(!membersData[user.uid]) membersData[user.uid] = {};
+        membersData[user.uid].displayName = myName;
+        membersData[user.uid].name = myName;
+      }
+    }
+  }catch(e){ /* ignore */ }
+
+  // load group data
+  try{
+    const gSnap = await getDoc(doc(db,'groups',groupId));
+    if(!gSnap.exists()){
+      loadingMsgs.style.display='none';
+      showToast('المجموعة غير موجودة');
+      setTimeout(()=>location.href='chat.html',1500);
+      return;
+    }
+    groupData = { id: gSnap.id, ...gSnap.data() };
+  } catch(e){
+    console.error('فشل تحميل بيانات المجموعة:', e);
+    loadingMsgs.style.display='none';
+    loadingMsgs.innerHTML = '<span style="color:#ff6b6b">تعذر تحميل المجموعة. تأكد من صلاحيات الوصول (Firestore Rules) ثم أعد المحاولة.</span>';
+    return;
+  }
+
+  // check membership
+  if(groupData.members && !groupData.members.includes(currentUser.uid)){
+    loadingMsgs.style.display='none';
+    showToast('لست عضواً في هذه المجموعة');
+    setTimeout(()=>location.href='chat.html',1500);
+    return;
+  }
+
+  // load members data
+  try{
+    const promises = (groupData.members||[]).map(uid=>getDoc(doc(db,'users',uid)));
+    const snaps = await Promise.all(promises);
+    snaps.forEach(s=>{ if(s.exists()) membersData[s.id]=s.data(); });
+    // ensure current user data is loaded even if not in members list
+    if(!membersData[currentUser.uid]){
+      const mySnap = await getDoc(doc(db,'users',currentUser.uid));
+      if(mySnap.exists()) membersData[currentUser.uid] = mySnap.data();
+    }
+  } catch(e){ /* ignore */ }
+
+  // render topbar
+  topName.textContent = groupData.name || groupNameParam;
+  document.title = `AChat | ${groupData.name||groupNameParam}`;
+  const memberCount = groupData.members?.length || 0;
+  topMembers.textContent = `${memberCount} أعضاء`;
+  renderAvatar(topAvatar, groupData.name||'م', groupData.photoURL);
+
+  // check allowWrite
+  const canWrite = groupData.allowWrite !== false || groupData.adminUid === currentUser.uid;
+  if(!canWrite){
+    inputBar.style.display = 'none';
+    readonlyBar.style.display = 'block';
+  }
+
+  // listen to messages
+  loadingMsgs.style.display='flex';
+  const msgsQuery = query(collection(db,'groups',groupId,'messages'), orderBy('createdAt','asc'));
+  unsubMsgs = onSnapshot(msgsQuery, snap=>{
+    loadingMsgs.style.display='none';
+    const msgs = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderMessages(msgs);
+  }, err=>{
+    console.error('فشل تحميل الرسائل:', err);
+    loadingMsgs.style.display='none';
+    loadingMsgs.innerHTML = '<span style="color:#ff6b6b">تعذر تحميل الرسائل. راجع صلاحيات Firestore.</span>';
+    loadingMsgs.style.display='flex';
+    showToast('تعذر تحميل الرسائل');
+  });
+});
+
+// ===== CONTEXT MENU =====
+let ctxMsgId = null;
+let ctxMsgText = '';
+
+const msgContextBackdrop = document.getElementById('msgContextBackdrop');
+const msgContextMenu = document.getElementById('msgContextMenu');
+
+function openCtxMenu(e, text, msgId, isMine){
+  ctxMsgId = msgId;
+  ctxMsgText = text;
+  document.getElementById('ctxDeleteBtn').style.display = isMine ? 'flex' : 'none';
+
+  // position the menu near the touch/click point
+  const menuW = 200, menuH = 220;
+  let x = (e.clientX || e.touches?.[0]?.clientX || window.innerWidth/2);
+  let y = (e.clientY || e.touches?.[0]?.clientY || window.innerHeight/2);
+  if(x + menuW > window.innerWidth) x = window.innerWidth - menuW - 8;
+  if(y + menuH > window.innerHeight) y = y - menuH - 10;
+  if(y < 8) y = 8;
+  msgContextMenu.style.left = x + 'px';
+  msgContextMenu.style.top  = y + 'px';
+
+  msgContextBackdrop.classList.add('show');
+  msgContextMenu.classList.add('show');
+}
+
+function closeCtxMenu(){
+  msgContextBackdrop.classList.remove('show');
+  msgContextMenu.classList.remove('show');
+  ctxMsgId = null; ctxMsgText = '';
+}
+
+msgContextBackdrop.addEventListener('click', closeCtxMenu);
+
+document.getElementById('ctxCopyBtn').addEventListener('click', ()=>{
+  if(ctxMsgText) navigator.clipboard.writeText(ctxMsgText).catch(()=>{});
+  showToast('تم النسخ');
+  closeCtxMenu();
+});
+
+document.getElementById('ctxReplyBtn').addEventListener('click', ()=>{
+  if(ctxMsgText){
+    const inp = document.getElementById('msgInput');
+    if(inp){ inp.setAttribute('data-reply', ctxMsgText); inp.focus(); }
+  }
+  closeCtxMenu();
+});
+
+document.getElementById('ctxForwardBtn').addEventListener('click', ()=>{
+  ctxForward();
+});
+
+document.getElementById('ctxDeleteBtn').addEventListener('click', async ()=>{
+  if(!ctxMsgId){ closeCtxMenu(); return; }
+  try{
+    await deleteDoc(doc(db,'groups',groupId,'messages',ctxMsgId));
+    showToast('تم حذف الرسالة');
+  }catch(e){ showToast('تعذر الحذف'); }
+  closeCtxMenu();
+});
+
+
+// ===== FORWARD (مشاركة جماعية) =====
+const forwardOverlay   = document.getElementById('forwardOverlay');
+const forwardList      = document.getElementById('forwardList');
+const forwardPreview   = document.getElementById('forwardPreview');
+const forwardSendBtn   = document.getElementById('forwardSendBtn');
+const forwardCancelBtn = document.getElementById('forwardCancelBtn');
+const forwardCount     = document.getElementById('forwardCount');
+
+let forwardText    = '';
+let forwardImage   = null;
+let forwardTargets = new Set();
+let allContacts    = []; // will be filled from Firestore
+
+function ctxForward(){
+  forwardText  = ctxMsgText || '';
+  forwardImage = null; // image forwarding not supported in text-only mode
+  // if the message had image, try to find it
+  const previewEl = document.getElementById('msgCtxPreview');
+  forwardPreview.textContent = forwardText || '📷 صورة';
+  forwardTargets.clear();
+  forwardSendBtn.disabled = true;
+  forwardCount.style.display = 'none';
+  closeCtxMenu();
+  loadForwardContacts();
+  forwardOverlay.classList.add('show');
+}
+
+async function loadForwardContacts(){
+  forwardList.innerHTML = '<div style="text-align:center;color:var(--muted);padding:30px;font-size:14px;">جاري التحميل...</div>';
+  try{
+    const { collection: col, getDocs: gDocs } = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+    // load users
+    const usersSnap = await gDocs(col(db, 'users'));
+    const users = usersSnap.docs
+      .map(d => ({ uid: d.id, ...d.data(), _type: 'user' }))
+      .filter(u => u.uid !== currentUser.uid);
+    // load groups
+    const groupsSnap = await gDocs(col(db, 'groups'));
+    const groups = groupsSnap.docs
+      .map(d => ({ gid: d.id, ...d.data(), _type: 'group' }))
+      .filter(g => g.members && g.members.includes(currentUser.uid) && g.id !== groupId);
+
+    allContacts = [...users, ...groups];
+    renderForwardList();
+  } catch(e){
+    forwardList.innerHTML = '<div style="text-align:center;color:var(--muted);padding:30px;">تعذر تحميل جهات الاتصال</div>';
+  }
+}
+
+function renderForwardList(){
+  if(allContacts.length === 0){
+    forwardList.innerHTML = '<div style="text-align:center;color:var(--muted);padding:30px;font-size:14px;">لا يوجد جهات اتصال</div>';
+    return;
+  }
+  forwardList.innerHTML = '';
+
+  // section: groups
+  const grps = allContacts.filter(c => c._type === 'group');
+  const usrs = allContacts.filter(c => c._type === 'user');
+
+  if(grps.length > 0){
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'padding:8px 20px 4px;font-size:11.5px;color:var(--muted);font-weight:700;letter-spacing:.5px;';
+    lbl.textContent = 'المجموعات';
+    forwardList.appendChild(lbl);
+    grps.forEach(g => forwardList.appendChild(createForwardItem(g)));
+  }
+  if(usrs.length > 0){
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'padding:8px 20px 4px;font-size:11.5px;color:var(--muted);font-weight:700;letter-spacing:.5px;';
+    lbl.textContent = 'المستخدمون';
+    forwardList.appendChild(lbl);
+    usrs.forEach(u => forwardList.appendChild(createForwardItem(u)));
+  }
+}
+
+function createForwardItem(contact){
+  const isGroup = contact._type === 'group';
+  const id = isGroup ? contact.gid : contact.uid;
+  const name = isGroup
+    ? (contact.name || 'مجموعة')
+    : (contact.displayName || contact.name || contact.email || 'مستخدم');
+  const sub = isGroup
+    ? `${contact.members?.length || 0} أعضاء`
+    : (contact.email || '');
+  const photoURL = isGroup ? contact.photoURL : contact.photoURL;
+  const initial = name.charAt(0).toUpperCase();
+
+  const item = document.createElement('div');
+  item.className = 'forward-item';
+  item.dataset.id = id;
+  item.dataset.type = contact._type;
+  item.innerHTML = `
+    <div class="forward-item-av">${photoURL ? `<img src="${photoURL}" alt="${name}">` : initial}</div>
+    <div class="forward-item-info">
+      <div class="forward-item-name">${name}</div>
+      <div class="forward-item-sub">${sub}</div>
+    </div>
+    <div class="forward-check">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#06121C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+  `;
+
+  item.addEventListener('click', () => {
+    const key = `${contact._type}:${id}`;
+    const svgCheck = item.querySelector('.forward-check svg');
+    if(forwardTargets.has(key)){
+      forwardTargets.delete(key);
+      item.classList.remove('selected');
+      svgCheck.style.display = 'none';
+    } else {
+      forwardTargets.add(key);
+      item.classList.add('selected');
+      svgCheck.style.display = 'block';
+    }
+    const cnt = forwardTargets.size;
+    forwardSendBtn.disabled = cnt === 0;
+    if(cnt > 0){
+      forwardCount.style.display = 'inline-block';
+      forwardCount.textContent = cnt;
+    } else {
+      forwardCount.style.display = 'none';
+    }
+  });
+  return item;
+}
+
+forwardCancelBtn.addEventListener('click', () => {
+  forwardOverlay.classList.remove('show');
+});
+forwardOverlay.addEventListener('click', e => {
+  if(e.target === forwardOverlay) forwardOverlay.classList.remove('show');
+});
+
+forwardSendBtn.addEventListener('click', async () => {
+  if(forwardTargets.size === 0 || !forwardText) return;
+  forwardSendBtn.disabled = true;
+  forwardSendBtn.innerHTML = `<div class="spinner" style="width:18px;height:18px;border-width:2px;"></div> جاري الإرسال...`;
+
+  try{
+    const { collection: col, addDoc: aDoc, serverTimestamp: sts, doc: dRef, updateDoc: uDoc }
+      = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js");
+
+    const myName = membersData[currentUser.uid]?.displayName
+      || membersData[currentUser.uid]?.name
+      || currentUser.displayName || currentUser.email;
+
+    const promises = [];
+
+    for(const key of forwardTargets){
+      const [type, id] = key.split(':');
+      if(type === 'group'){
+        // send to group
+        promises.push(
+          aDoc(col(db, 'groups', id, 'messages'), {
+            text: `↩ ${forwardText}`,
+            imageURL: null,
+            senderId: currentUser.uid,
+            senderName: myName,
+            createdAt: sts(),
+            readBy: [currentUser.uid]
+          }).then(() => uDoc(dRef(db, 'groups', id), { lastMessage: `↩ ${forwardText}`, updatedAt: sts() }))
+        );
+      } else {
+        // send to user (private chat)
+        const chatId = [currentUser.uid, id].sort().join('_');
+        promises.push(
+          aDoc(col(db, 'chats', chatId, 'messages'), {
+            text: `↩ ${forwardText}`,
+            imageURL: null,
+            senderId: currentUser.uid,
+            receiverId: id,
+            createdAt: sts(),
+            read: false
+          })
+        );
+      }
+    }
+
+    await Promise.all(promises);
+    forwardOverlay.classList.remove('show');
+    showToast(`تم الإرسال لـ ${forwardTargets.size} ${forwardTargets.size === 1 ? 'جهة' : 'جهات'} ✓`);
+  } catch(e){
+    showToast('تعذر الإرسال، حاول تاني');
+    forwardSendBtn.disabled = false;
+    forwardSendBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> إرسال <span class="forward-count" id="forwardCount">${forwardTargets.size}</span>`;
+  }
+});
+// ===== VOICE RECORDING =====
+const micBtn       = document.getElementById('micBtn');
+const recordingBar = document.getElementById('recordingBar');
+const recTime      = document.getElementById('recTime');
+const recCancelBtn = document.getElementById('recCancelBtn');
+
+let mediaRecorder=null, recordedChunks=[], recordStream=null;
+let recordStart=0, recordInterval=null, recordCancelled=false;
+const MAX_REC_SEC = 90;
+
+micBtn.addEventListener('click', async ()=>{
+  if(mediaRecorder && mediaRecorder.state==='recording'){ stopRec(false); return; }
+  await startRec();
+});
+recCancelBtn.addEventListener('click', ()=>stopRec(true));
+
+async function startRec(){
+  try{ recordStream = await navigator.mediaDevices.getUserMedia({audio:true}); }
+  catch(e){ showToast('محتاج صلاحية الميكروفون'); return; }
+  recordedChunks=[]; recordCancelled=false;
+  const mime = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':'audio/webm';
+  mediaRecorder = new MediaRecorder(recordStream, {mimeType:mime});
+  mediaRecorder.ondataavailable = e=>{ if(e.data&&e.data.size>0) recordedChunks.push(e.data); };
+  mediaRecorder.onstop = handleRecStop;
+  mediaRecorder.start();
+  recordStart = Date.now();
+  msgInput.style.display='none';
+  recordingBar.classList.add('show');
+  micBtn.classList.add('is-recording');
+  micBtn.querySelector('.icon-mic').style.display='none';
+  micBtn.querySelector('.icon-stop').style.display='block';
+  recTime.textContent='00:00';
+  recordInterval = setInterval(()=>{
+    const s = Math.floor((Date.now()-recordStart)/1000);
+    recTime.textContent = String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+    if(s>=MAX_REC_SEC) stopRec(false);
+  },250);
+}
+
+function stopRec(cancelled){
+  recordCancelled=cancelled;
+  if(mediaRecorder&&mediaRecorder.state==='recording') mediaRecorder.stop();
+  clearInterval(recordInterval);
+  recordStream?.getTracks().forEach(t=>t.stop()); recordStream=null;
+  msgInput.style.display='';
+  recordingBar.classList.remove('show');
+  micBtn.classList.remove('is-recording');
+  micBtn.querySelector('.icon-mic').style.display='block';
+  micBtn.querySelector('.icon-stop').style.display='none';
+}
+
+async function handleRecStop(){
+  if(recordCancelled||!recordedChunks.length) return;
+  const dur = (Date.now()-recordStart)/1000;
+  const blob = new Blob(recordedChunks,{type:mediaRecorder.mimeType||'audio/webm'});
+  if(blob.size>850000){ showToast('الرسالة الصوتية طويلة جداً'); return; }
+  const dataUrl = await new Promise((res,rej)=>{ const r=new FileReader(); r.onerror=()=>rej(); r.onload=()=>res(r.result); r.readAsDataURL(blob); });
+  try{
+    await addDoc(collection(db,'groups',groupId,'messages'),{
+      type:'voice', audio:dataUrl, duration:dur,
+      senderId:currentUser.uid,
+      senderName:(membersData[currentUser.uid]?.displayName||membersData[currentUser.uid]?.name||currentUser.displayName||currentUser.email),
+      createdAt:serverTimestamp(), readBy:[currentUser.uid]
+    });
+    await updateDoc(doc(db,'groups',groupId),{ lastMessage:'🎤 رسالة صوتية', updatedAt:serverTimestamp() });
+  } catch(e){ showToast('تعذر إرسال الرسالة الصوتية'); }
+}
+
+// ===== RENDER VOICE BUBBLE =====
+const VBARS=28;
+const VPAT=[4,6,10,14,18,22,24,22,18,14,10,14,20,24,22,16,10,14,20,24,20,14,10,8,12,18,22,14];
+function fmtDur(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+
+function buildVoiceBubble(m, isOut){
+  const dur = m.duration||0;
+  const seed = m.createdAt?.seconds||1;
+  const bars = Array.from({length:VBARS},(_,i)=>{
+    const h = Math.max(4,Math.min(24,VPAT[i%VPAT.length]+(((seed*(i+3))%7)-3)));
+    return `<span class="bar" style="height:${h}px"></span>`;
+  }).join('');
+  const playIcon=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+  const pauseIcon=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+  const wrap = document.createElement('div');
+  wrap.className='voice-bubble-wrap';
+  wrap.dataset.audio=m.audio||'';
+  wrap.dataset.duration=dur;
+  wrap.innerHTML=`
+    <button class="voice-play-btn" data-play="${encodeURIComponent(playIcon)}" data-pause="${encodeURIComponent(pauseIcon)}">${playIcon}</button>
+    <div class="voice-wave">${bars}</div>
+    <span class="voice-dur">${fmtDur(dur)}</span>
+  `;
+  // bind player
+  const btn=wrap.querySelector('.voice-play-btn');
+  const waveBars=Array.from(wrap.querySelectorAll('.bar'));
+  const durEl=wrap.querySelector('.voice-dur');
+  let audio=null, playing=false;
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.voice-bubble-wrap').forEach(w=>{
+      if(w!==wrap&&w._audio){ w._audio.pause(); w._playing=false;
+        const b=w.querySelector('.voice-play-btn');
+        if(b) b.innerHTML=decodeURIComponent(b.dataset.play||'');
+      }
+    });
+    if(!audio){ audio=new Audio(wrap.dataset.audio); wrap._audio=audio;
+      audio.addEventListener('timeupdate',()=>{
+        if(audio.duration){ const r=audio.currentTime/audio.duration; waveBars.forEach((b,i)=>b.classList.toggle('played',i<Math.round(r*waveBars.length))); }
+        durEl.textContent=fmtDur(Math.max(0,dur-audio.currentTime));
+      });
+      audio.addEventListener('ended',()=>{ playing=false; btn.innerHTML=decodeURIComponent(btn.dataset.play); waveBars.forEach(b=>b.classList.remove('played')); durEl.textContent=fmtDur(dur); });
+    }
+    if(playing){ audio.pause(); playing=false; btn.innerHTML=decodeURIComponent(btn.dataset.play); }
+    else { audio.play().catch(()=>showToast('تعذر التشغيل')); playing=true; btn.innerHTML=decodeURIComponent(btn.dataset.pause); }
+  });
+  return wrap;
+}
+</script>
+
+<!-- ===== MESSAGE CONTEXT MENU ===== -->
+<div class="msg-context-backdrop" id="msgContextBackdrop"></div>
+<div class="msg-context-menu" id="msgContextMenu">
+  <button type="button" id="ctxCopyBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    نسخ
+  </button>
+  <button type="button" id="ctxReplyBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
+    رد
+  </button>
+  <button type="button" id="ctxForwardBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    مشاركة جماعية
+  </button>
+  <button type="button" id="ctxDeleteBtn" class="danger" style="display:none;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+    حذف
+  </button>
+</div>
+
+<!-- FORWARD SHEET -->
+<div class="forward-overlay" id="forwardOverlay">
+  <div class="forward-sheet">
+    <div class="forward-handle"></div>
+    <div class="forward-header">
+      <h3>مشاركة جماعية</h3>
+      <p>اختر الأشخاص اللي تبعتلهم الرسالة</p>
+    </div>
+    <div class="forward-preview" id="forwardPreview"></div>
+    <div class="forward-list" id="forwardList"></div>
+    <div class="forward-actions">
+      <button class="forward-cancel-btn" id="forwardCancelBtn">إلغاء</button>
+      <button class="forward-send-btn" id="forwardSendBtn" disabled>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        إرسال
+        <span class="forward-count" id="forwardCount" style="display:none">0</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
