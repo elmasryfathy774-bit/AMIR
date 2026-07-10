@@ -109,8 +109,17 @@
     display:flex; align-items:center; justify-content:center;
     font-weight:800; font-size:34px;
     overflow:hidden;
+    cursor:pointer;
+    position:relative;
   }
   .modal-avatar img{ width:100%; height:100%; object-fit:cover; }
+  .modal-avatar::after{
+    content:'';
+    position:absolute; inset:0;
+    background:rgba(6,18,28,.0);
+    transition:background .15s ease;
+  }
+  .modal-avatar:hover::after{ background:rgba(6,18,28,.28); }
   .modal-avatar-edit{
     position:absolute;
     bottom:-2px; left:-2px;
@@ -124,6 +133,67 @@
     cursor:pointer;
   }
   .modal-avatar-edit:hover{ filter:brightness(1.1); }
+
+  /* قائمة إجراءات الصورة (تغيير / حذف) - تظهر عند الضغط على الصورة */
+  .avatar-actions-menu{
+    position:absolute;
+    top:calc(100% + 10px);
+    left:50%;
+    transform:translateX(-50%) translateY(-6px);
+    background:var(--surface, #101B27);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;
+    padding:6px;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    min-width:170px;
+    box-shadow:0 18px 40px -12px rgba(0,0,0,.55);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .15s ease, transform .15s ease, visibility .15s;
+    z-index:5;
+  }
+  .avatar-actions-menu.show{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translateX(-50%) translateY(0);
+  }
+  .avatar-action-btn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    background:transparent;
+    border:none;
+    border-radius:9px;
+    color:var(--text, #EAF6FF);
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    text-align:right;
+    transition:background .12s ease;
+  }
+  .avatar-action-btn:hover{ background:rgba(255,255,255,.06); }
+  .avatar-action-icon{
+    display:flex; align-items:center; justify-content:center;
+    width:28px; height:28px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+  .avatar-action-btn.change .avatar-action-icon{
+    color:var(--cyan);
+    background:rgba(47,224,255,.12);
+  }
+  .avatar-action-btn.delete{ color:#FF5D75; }
+  .avatar-action-btn.delete .avatar-action-icon{
+    color:#FF5D75;
+    background:rgba(255,93,117,.12);
+  }
+  .avatar-action-btn.delete:hover{ background:rgba(255,93,117,.1); }
   .modal-name{ font-weight:700; font-size:15px; margin-bottom:2px; }
   .modal-email{ color:var(--muted); font-size:13px; margin-bottom:6px; }
   .modal-status{
@@ -1119,9 +1189,24 @@
     <div class="modal-box">
       <h2>صورة البروفايل</h2>
       <div class="modal-avatar-wrap">
-        <div class="modal-avatar" id="modalAvatar">؟</div>
-        <button type="button" class="modal-avatar-edit" id="modalAvatarEdit" title="رفع صورة">📷</button>
+        <div class="modal-avatar" id="modalAvatar" role="button" tabindex="0" title="اضغط لتعديل الصورة">؟</div>
         <input type="file" id="avatarFileInput" accept="image/*" hidden>
+
+        <!-- قائمة إجراءات الصورة: تظهر عند الضغط على الصورة -->
+        <div class="avatar-actions-menu" id="avatarActionsMenu">
+          <button type="button" class="avatar-action-btn change" id="avatarChangeBtn">
+            <span class="avatar-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </span>
+            <span>تغيير الصورة</span>
+          </button>
+          <button type="button" class="avatar-action-btn delete" id="avatarDeleteBtn">
+            <span class="avatar-action-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            </span>
+            <span>حذف الصورة</span>
+          </button>
+        </div>
       </div>
       <div class="modal-name" id="modalName">...</div>
       <div class="modal-email" id="modalEmail">...</div>
@@ -1289,7 +1374,7 @@
   import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
   import {
     collection, onSnapshot, doc, setDoc, getDoc, updateDoc,
-    query, where, orderBy, addDoc, deleteDoc, serverTimestamp, Timestamp
+    query, where, orderBy, addDoc, deleteDoc, serverTimestamp, Timestamp, deleteField
   } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
   const userLabel = document.getElementById('userLabel');
@@ -1301,7 +1386,9 @@
 
   const profileModal = document.getElementById('profileModal');
   const modalAvatar = document.getElementById('modalAvatar');
-  const modalAvatarEdit = document.getElementById('modalAvatarEdit');
+  const avatarActionsMenu = document.getElementById('avatarActionsMenu');
+  const avatarChangeBtn = document.getElementById('avatarChangeBtn');
+  const avatarDeleteBtn = document.getElementById('avatarDeleteBtn');
   const avatarFileInput = document.getElementById('avatarFileInput');
   const modalName = document.getElementById('modalName');
   const modalEmail = document.getElementById('modalEmail');
@@ -1376,6 +1463,7 @@
   }
   function closeProfileModal(){
     profileModal.classList.remove('show');
+    closeAvatarActionsMenu();
   }
 
   avatar.addEventListener('click', openProfileModal);
@@ -1385,17 +1473,83 @@
   });
 
   // ====================================================
+  // قائمة إجراءات الصورة: تظهر عند الضغط على صورة البروفايل
+  // وتحتوي على زر "تغيير الصورة" وزر "حذف الصورة"
+  // ====================================================
+  function openAvatarActionsMenu(){
+    // إظهار زر الحذف بس لو فيه صورة أصلاً
+    avatarDeleteBtn.style.display = currentUser.photoURL ? 'flex' : 'none';
+    avatarActionsMenu.classList.add('show');
+  }
+  function closeAvatarActionsMenu(){
+    avatarActionsMenu.classList.remove('show');
+  }
+  function toggleAvatarActionsMenu(e){
+    e.stopPropagation();
+    if(avatarActionsMenu.classList.contains('show')) closeAvatarActionsMenu();
+    else openAvatarActionsMenu();
+  }
+
+  modalAvatar.addEventListener('click', toggleAvatarActionsMenu);
+  modalAvatar.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggleAvatarActionsMenu(e); }
+  });
+
+  // اقفلي القائمة لو ضغطنا في أي مكان تاني جوه المودال
+  document.addEventListener('click', (e) => {
+    if(!avatarActionsMenu.contains(e.target) && e.target !== modalAvatar){
+      closeAvatarActionsMenu();
+    }
+  });
+
+  // زر "تغيير الصورة": بيفتح معرض الصور مباشرة
+  avatarChangeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeAvatarActionsMenu();
+    avatarFileInput.click();
+  });
+
+  // زر "حذف الصورة": بيمسح الصورة الحالية ويرجع للحرف الأول
+  avatarDeleteBtn.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    closeAvatarActionsMenu();
+
+    if(!currentUser.photoURL) return;
+    const confirmDelete = window.confirm('تأكيد حذف صورة البروفايل؟');
+    if(!confirmDelete) return;
+
+    modalStatus.textContent = 'جاري حذف الصورة...';
+    modalStatus.className = 'modal-status';
+
+    try{
+      await setDoc(doc(db, 'users', currentUser.uid), { photoURL: deleteField() }, { merge: true });
+      currentUser.photoURL = null;
+
+      const displayName = currentUser.displayName || currentUser.email;
+      const initial = displayName.charAt(0).toUpperCase();
+      modalAvatar.innerHTML = initial;
+      renderTopAvatar(currentUser);
+
+      modalStatus.textContent = 'تم حذف الصورة بنجاح ✓';
+      modalStatus.className = 'modal-status success';
+    } catch(error){
+      modalStatus.textContent = 'حصل خطأ أثناء حذف الصورة: ' + error.message;
+      modalStatus.className = 'modal-status error';
+    }
+  });
+
+  // ====================================================
   // رفع صورة بروفايل: بنضغطها ونحولها Base64 ونحفظها
   // مباشرة جوه مستند المستخدم في Firestore (من غير Storage)
+  // اختيار الصورة من المعرض بيتظبط تلقائي على مربع الأفاتار
+  // (قص من النص + تصغير) في resizeImageToDataUrl تحت
   // ====================================================
-  modalAvatarEdit.addEventListener('click', () => avatarFileInput.click());
-
   avatarFileInput.addEventListener('change', async () => {
     const file = avatarFileInput.files[0];
     if(!file) return;
 
     if(!file.type.startsWith('image/')){
-      modalStatus.textContent = 'لازم تختاري ملف صورة';
+      modalStatus.textContent = 'لازم تختار ملف صورة';
       modalStatus.className = 'modal-status error';
       return;
     }
@@ -2069,7 +2223,7 @@
     const myAvHtml = currentUser.photoURL ? `<img src="${currentUser.photoURL}" alt="أنا">` : myInitial;
     const myRingCls = myStatuses.length > 0 ? 'has-new' : 'empty';
     const myAddClass = myStatuses.length === 0 ? 'add-plus' : '';
-    const myLabel = myStatuses.length > 0 ? 'حالتي' : 'انقري لإضافة حالة';
+    const myLabel = myStatuses.length > 0 ? 'حالتي' : 'اضغط هنا لإضافة حالة';
 
     const myEl = document.getElementById('updatesMyStatus');
     myEl.innerHTML = `
